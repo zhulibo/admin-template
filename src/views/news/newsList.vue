@@ -1,9 +1,3 @@
-<!--<script>-->
-<!--export default {-->
-<!--  name: 'newsList'-->
-<!--}-->
-<!--</script>-->
-
 <script setup lang="ts">
 import { reactive, ref} from "vue"
 import { useRouter } from 'vue-router'

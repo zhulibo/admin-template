@@ -1,4 +1,4 @@
-<script setup>
+<script lang="ts" setup>
 import { ref, reactive } from "vue"
 import { useRouter, useRoute } from "vue-router";
 // import imgUpload from '@/components/fileUpload/imgUpload.vue'
