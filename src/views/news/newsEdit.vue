@@ -1,7 +1,7 @@
 <script setup>
 import { ref, reactive } from "vue"
 import { useRouter, useRoute } from "vue-router";
-import imgUpload from '@/components/fileUpload/imgUpload.vue'
+// import imgUpload from '@/components/fileUpload/imgUpload.vue'
 import richText from '@/components/richText/index.vue'
 import { goBack } from "@/hooks/hooks";
 import { getNewsDetail, editNews, addNews } from "@/api/news";
@@ -87,11 +87,11 @@ function submitNewsForm() {
               <el-input v-model="newsForm.status" placeholder="请输入"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="24">
-            <el-form-item label="图片" prop="imgUrl">
-              <imgUpload v-model="newsForm.imgUrl" :limit="5"></imgUpload>
-            </el-form-item>
-          </el-col>
+<!--          <el-col :span="24">-->
+<!--            <el-form-item label="图片" prop="imgUrl">-->
+<!--              <imgUpload v-model="newsForm.imgUrl" :limit="5"></imgUpload>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
           <el-col :span="24">
             <el-form-item label="内容" prop="content">
               <richText v-model="newsForm.content"></richText>

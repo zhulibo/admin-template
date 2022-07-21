@@ -27,3 +27,5 @@ app
   .component('page', pagination)
   // .component('icon', svgIcon)
   .mount('#app')
+
+  // todo vite-plugin-svg-icons 版本清除缓存

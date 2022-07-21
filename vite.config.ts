@@ -7,6 +7,7 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [vue()],
   server: {
+    host: '0.0.0.0',
     proxy: {
       '/api': {
         target: 'http://localhost:9000',
@@ -20,7 +21,3 @@ export default defineConfig({
     }
   }
 })
-
-// todo
-// vite-svg-loader or components
-// quill or tinymce-vue
