@@ -1,9 +1,3 @@
-<!--<script>-->
-<!--export default {-->
-<!--  name: 'newsList'-->
-<!--}-->
-<!--</script>-->
-
 <script setup>
 import { reactive, ref} from "vue"
 import { useRouter } from 'vue-router'
@@ -144,18 +138,18 @@ function delNewsHandle(row) {
           <span v-copy="scope.row.title">{{scope.row.title}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="imgUrl" label="图片" align="center" min-width="120">
-        <template #default="scope">
-          <el-image
-            :src="settingStore.getFileHost + scope.row.imgUrl"
-            :preview-src-list="[settingStore.getFileHost + scope.row.imgUrl]"
-            fit="contain"
-            :hide-on-click-modal="true"
-            style="height: 32px;"
-          >
-          </el-image>
-        </template>
-      </el-table-column>
+<!--      <el-table-column prop="imgUrl" label="图片" align="center" min-width="120">-->
+<!--        <template #default="scope">-->
+<!--          <el-image-->
+<!--            :src="settingStore.getFileHost + scope.row.imgUrl"-->
+<!--            :preview-src-list="[settingStore.getFileHost + scope.row.imgUrl]"-->
+<!--            fit="contain"-->
+<!--            :hide-on-click-modal="true"-->
+<!--            style="height: 32px;"-->
+<!--          >-->
+<!--          </el-image>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column prop="type" label="分类" min-width="120"></el-table-column>
       <el-table-column prop="" label="地区" align="center" sortable :sort-by="['province', 'city', 'area']" min-width="200">
         <template #default="scope">
