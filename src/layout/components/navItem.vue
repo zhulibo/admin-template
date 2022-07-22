@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import path from 'path-browserify'
 import { ref } from "vue";
 

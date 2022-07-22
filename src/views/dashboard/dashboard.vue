@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useMousePosition } from "@/hooks/useMousePosition"
 import { deepCopy } from 'js-fragment'
 

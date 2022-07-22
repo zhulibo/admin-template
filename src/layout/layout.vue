@@ -1,17 +1,4 @@
-<template>
-  <headBar></headBar>
-  <headTab></headTab>
-  <sideNav></sideNav>
-  <div class="main-ct">
-    <router-view v-slot="{ Component }">
-      <keep-alive :max="10" :include="cachePages">
-        <component :is="Component" />
-      </keep-alive>
-    </router-view>
-  </div>
-</template>
-
-<script setup>
+<script setup lang="ts">
 import {computed} from "vue";
 import {useVisitedPagesStore} from "@/stores/visitedPage";
 import headBar from './components/headBar.vue'
@@ -31,6 +18,19 @@ const cachePages = computed(() =>{
   return res
 })
 </script>
+
+<template>
+  <headBar></headBar>
+  <headTab></headTab>
+  <sideNav></sideNav>
+  <div class="main-ct">
+    <router-view v-slot="{ Component }">
+      <keep-alive :max="10" :include="cachePages">
+        <component :is="Component" />
+      </keep-alive>
+    </router-view>
+  </div>
+</template>
 
 <style scoped>
 .main-ct{

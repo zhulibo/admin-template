@@ -1,17 +1,4 @@
-<template>
-  <div class="head-tab">
-    <router-link
-      v-for="item in visitedPages"
-      :key="item.path"
-      class="tab-item"
-      :to="{path: item.path, query: item.query}"
-    >
-      <span>{{item.meta.title}}</span>
-    </router-link>
-  </div>
-</template>
-
-<script setup>
+<script setup lang="ts">
 import {computed, watch} from "vue";
 import { useVisitedPagesStore } from '@/stores/visitedPage'
 import {useRoute} from "vue-router";
@@ -32,6 +19,19 @@ watch(() => route, (route) => {
   })
 }, {immediate: true, deep: true})
 </script>
+
+<template>
+  <div class="head-tab">
+    <router-link
+      v-for="item in visitedPages"
+      :key="item.path"
+      class="tab-item"
+      :to="{path: item.path, query: item.query}"
+    >
+      <span>{{item.meta.title}}</span>
+    </router-link>
+  </div>
+</template>
 
 <style scoped>
 .head-tab{
