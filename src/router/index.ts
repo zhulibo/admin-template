@@ -1,14 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import base from './base'
+import {baseRoutes} from './base'
 import {useUserStore} from '@/stores/user'
 import {usePermissionStore} from '@/stores/permission'
 import { getRouter } from '@/api/user'
 
-let userStore
-let permissionStore
+let userStore: any
+let permissionStore: any
 
 export const constantRoutes = [
-  ...base
+  ...baseRoutes
 ]
 
 export const router = createRouter({

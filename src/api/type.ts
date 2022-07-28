@@ -3,7 +3,7 @@ export interface LoginParams {
   password: string;
 }
 
-export interface userInfo {
+export interface UserInfo {
   email: string
   permissions: string[]
   phone: string

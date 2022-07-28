@@ -2,9 +2,12 @@ import {defineStore} from "pinia";
 import { router, constantRoutes } from '@/router'
 import layout from '@/layout/layout.vue'
 import routeWrapper from '@/layout/routeWrapper.vue'
+import type {PermissionState} from "@/stores/type";
+import type { DefineComponent } from 'vue'
+import type { RouterList } from "@/stores/type";
 
 export const usePermissionStore = defineStore('permission', {
-  state: () => ({
+  state: (): PermissionState => ({
     addRouterStatus: false, // 路由是否已合并
     routers: [], // 完整路由
     accessedRoutes: [] // 从后台获取的路由
@@ -16,15 +19,15 @@ export const usePermissionStore = defineStore('permission', {
   },
   actions: {
     // 改变合并路由状态
-    changeRouterState(bool) {
+    changeRouterState(bool: boolean) {
       this.addRouterStatus = bool
     },
     // 更新router
-    updateRouter(routers) {
+    updateRouter(routers: RouterList[]) {
       return new Promise((resolve) => {
         const accessedRoutes = filterAsyncRouter(routers)
         this.accessedRoutes = accessedRoutes
-        this.routers = constantRoutes.concat(accessedRoutes)
+        this.routers = constantRoutes.concat(accessedRoutes) as RouterList[]
         // 向vue-router中添加accessedRoutes
         for (let i = 0; i < accessedRoutes.length; i++) {
           router.addRoute(accessedRoutes[i])
@@ -38,7 +41,7 @@ export const usePermissionStore = defineStore('permission', {
 })
 
 // 把后端返回的路由信息转换为组件对象
-function filterAsyncRouter(asyncRouterMap) {
+function filterAsyncRouter(asyncRouterMap: RouterList[]) {
   return asyncRouterMap.filter(route => {
     if (route.component) {
       if (route.component === 'layout') {
@@ -46,7 +49,7 @@ function filterAsyncRouter(asyncRouterMap) {
       }else if (route.component === 'routeWrapper') {
         route.component = routeWrapper
       }else {
-        route.component = loadComponent(route.component)
+        route.component = loadComponent(route.component as string) as unknown as DefineComponent
       }
     }
     if (route.children !== null && route.children && route.children.length) {
@@ -57,6 +60,6 @@ function filterAsyncRouter(asyncRouterMap) {
 }
 
 const modules = import.meta.glob('../views/**/*.vue')
-export const loadComponent = (view) => {
+export const loadComponent = (view: string) => {
   return modules[`../views${view}.vue`]
 }

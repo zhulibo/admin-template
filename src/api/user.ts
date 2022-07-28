@@ -1,9 +1,10 @@
 import http from '@/axios'
-import type {userInfo, LoginParams} from "@/api/type";
+import type {UserInfo, LoginParams} from "@/api/type";
+import type {RouterList} from "@/stores/type";
 
 // 登录
 export function login(data: LoginParams) {
-  return http.post<userInfo>({
+  return http.post<UserInfo>({
     url: '/api/user/login',
     data,
   })
@@ -11,7 +12,7 @@ export function login(data: LoginParams) {
 
 // 获取路由信息
 export function getRouter() {
-  return http.get({
+  return http.get<RouterList[]>({
     url: '/api/user/getRouter',
     method: 'get',
   })

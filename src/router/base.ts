@@ -1,17 +1,20 @@
 import layout from '@/layout/layout.vue'
+import type {RouteRecordRaw} from "vue-router";
 
-export default [
+export const baseRoutes: RouteRecordRaw[] = [
   {
     path: '/',
-    hidden: true,
+    meta: {
+      hidden: true,
+    },
     redirect: { path: '/home/dashboard' },
   },
   {
     name: 'login',
     path: '/login',
-    hidden: true,
     meta: {
-      title: '登录页'
+      title: '登录页',
+      hidden: true,
     },
     component: () => import(/* webpackChunkName: 'login' */ '@/views/login/login.vue'),
   },

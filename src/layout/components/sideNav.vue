@@ -20,7 +20,7 @@ const routers = reactive(permissionStore.getRouters)
     background-color="#545c64"
     >
       <template v-for="route in routers" :key="route.path">
-        <navItem v-if="!route.hidden" :item="route" :basePath="route.path"></navItem>
+        <navItem v-if="!route.meta.hidden" :item="route" :basePath="route.path"></navItem>
       </template>
     </el-menu>
   </div>
