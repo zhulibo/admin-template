@@ -1,8 +1,9 @@
 import http from '@/axios'
+import type {News, NewsListParams} from "@/api/news/type";
 
 // 获取新闻列表
-export function getNewsList(params) {
-  return http.request({
+export function getNewsList(params: NewsListParams) {
+  return http.request<News[]>({
     url: '/api/article/news/list',
     method: 'get',
     params
@@ -10,15 +11,15 @@ export function getNewsList(params) {
 }
 
 // 获取新闻详情
-export function getNewsDetail(id) {
-  return http.request({
+export function getNewsDetail(id: number) {
+  return http.request<News>({
     url: '/api/article/news/detail/' + id,
     method: 'get',
   })
 }
 
 // 新增新闻
-export function addNews(data) {
+export function addNews(data: News) {
   return http.request({
     url: '/api/article/news/add',
     method: 'post',
@@ -27,7 +28,7 @@ export function addNews(data) {
 }
 
 // 编辑新闻
-export function editNews(data) {
+export function editNews(data: News) {
   return http.request({
     url: '/api/article/news/update',
     method: 'put',
@@ -36,7 +37,7 @@ export function editNews(data) {
 }
 
 // 删除新闻
-export function delNews(id) {
+export function delNews(id: number) {
   return http.request({
     url: '/api/article/news/del/' + id,
     method: 'delete',

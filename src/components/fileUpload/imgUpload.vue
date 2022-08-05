@@ -2,12 +2,17 @@
 import { ref, watch } from "vue";
 import { useUserStore } from '@/stores/user'
 import { useSettingStore } from '@/stores/setting'
-import { ElMessage } from 'element-plus'
+import {ElMessage} from 'element-plus'
+import type {UploadProps, UploadFiles} from 'element-plus'
+import type {FileList} from "@/components/fileUpload/type";
+import { Plus } from '@element-plus/icons-vue'
 
 const userStore = useUserStore()
 const settingStore = useSettingStore()
 const props = defineProps({
-  modelValue: {},
+  modelValue: {
+    type: String
+  },
   accept: {
     default: '.jpg,.jpeg,.png,.gif'
   },
@@ -20,21 +25,23 @@ const emit = defineEmits([
 ])
 
 const headers = { // 请求头
-  token: userStore.getUserInfo.token
+  token: userStore.getUserInfo!.token
 }
-const fileList = ref([]) // 返显数组
+const fileList = ref<FileList[]>([]) // 返显数组
 // 监听父组件v-model的值，返显
-watch(() => props.modelValue, (imgUrls) => {
-  const arr = []
-  if(imgUrls){
-    imgUrls.split(',').forEach((item) => {
-      if(item) arr.push({ url: settingStore.getFileHost + item })  // 补全根路径
-    })
-  }
-  fileList.value = arr
-},{ immediate: true })
+watch(
+  () => props.modelValue,
+  imgUrls => {
+    if(imgUrls){
+      fileList.value = imgUrls.split(',').map(item => {
+        return { url: settingStore.getFileHost + item }  // 补全根路径
+      })
+    }
+  },
+  { immediate: true }
+)
 // 上传前校验
-const handleImgBeforeUpload = (file) => {
+const handleImgBeforeUpload: UploadProps['beforeUpload'] = (file) => {
   if (file.type == 'image/png' || file.type == 'image/jpg' || file.type == 'image/jpeg' || file.type == 'image/gif') {
     if (file.size / 1024 / 1024 >= 10) {
       ElMessage.warning('图片最大10M')
@@ -43,27 +50,27 @@ const handleImgBeforeUpload = (file) => {
   }
 }
 // 上传成功
-const handleImgSuccess = (res, file, fileList) => {
+const handleImgSuccess: UploadProps['onSuccess'] = (res, file, fileList) => {
   console.log('handleImgSuccess', res, file, fileList)
   emitImgUrls(fileList)
 }
 // 上传出错
-const handleImgError = (err, file, fileList) => {
+const handleImgError: UploadProps['onError'] = (err, file, fileList) => {
   console.log('handleImgError', err, file, fileList)
   ElMessage.error('逻辑处理错误')
 }
 // 删除图片
-const handleImgRemove = (file, fileList) => {
+const handleImgRemove: UploadProps['onRemove'] = (file, fileList) => {
   console.log('handleImgRemove', file, fileList)
   emitImgUrls(fileList)
 }
 // 图片超出限制
-const handleImgExceed = (file, fileList) => {
+const handleImgExceed: UploadProps['onExceed'] = (file, fileList) => {
   console.log('handleImgExceed', file, fileList)
   ElMessage.warning(`最多${props.limit}张图片←_←`)
 }
 // 输出图片url
-const emitImgUrls = (fileList) => {
+const emitImgUrls = (fileList: UploadFiles) => {
   // console.log(JSON.stringify(fileList))
   // 一次选中多张图片时判断所有图片都已上传成功
   for (let i = 0; i < fileList.length; i++) {
@@ -75,9 +82,9 @@ const emitImgUrls = (fileList) => {
   const imgUrls = [] // 暂存图片数组
   for (let i = 0; i < fileList.length; i++) {
     if (fileList[i].response) { // 新上传的图片
-      imgUrls.push(fileList[i].response.data)
+      imgUrls.push((fileList[i].response as any).data)
     } else {
-      let imgUrl = fileList[i].url
+      let imgUrl = fileList[i].url!
       if(imgUrl.indexOf(fileHost) !== -1){
         imgUrl = imgUrl.replace(fileHost, '') // 去掉根路径
       }
@@ -90,8 +97,8 @@ const emitImgUrls = (fileList) => {
 // 预览图片
 const dialogVisible = ref(false) // 预览图片弹窗
 const dialogImageUrl = ref('') // 预览图片url
-const handleImgPreview = (file) => {
-  dialogImageUrl.value = file.url
+const handleImgPreview: UploadProps['onPreview'] = (file) => {
+  dialogImageUrl.value = file.url!
   dialogVisible.value = true
 }
 </script>
@@ -114,7 +121,7 @@ const handleImgPreview = (file) => {
       :on-remove="handleImgRemove"
       :on-exceed="handleImgExceed"
     >
-      <i class="el-icon-plus"></i>
+      <el-icon><Plus /></el-icon>
     </el-upload>
     <el-dialog v-model="dialogVisible">
       <img :src="dialogImageUrl" alt="" style="width: 100%;">

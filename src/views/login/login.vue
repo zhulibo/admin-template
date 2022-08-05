@@ -2,7 +2,8 @@
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
-import { login } from '@/api/user'
+import { login } from '@/api/user/user'
+import type {FormInstance, FormRules} from "element-plus";
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -11,15 +12,15 @@ const loginForm = reactive({
   account: 'zhulibo',
   password: 'Cf022044..',
 })
-const loginRule = {
+const loginRule = reactive<FormRules>({
   account: [{ required: true, message: '请输入', trigger: 'blur' }],
   password: [{ required: true, message: '请输入', trigger: 'blur' }],
-}
-const loginFormRef = ref()
+})
+const loginFormRef = ref<FormInstance>()
 
 // 登录
 function submitLoginForm() {
-  loginFormRef.value.validate(valid => {
+  loginFormRef.value?.validate(valid => {
     if(valid) {
       login(loginForm)
         .then(res => {

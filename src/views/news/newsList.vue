@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { reactive, ref} from "vue"
 import { useRouter } from 'vue-router'
-import { getNewsList, editNews, delNews } from '@/api/news'
-import { ElMessage,  ElMessageBox } from 'element-plus'
-import {useSettingStore} from "../../stores/setting";
+import { getNewsList, editNews, delNews } from '@/api/news/news'
+import {ElMessage, ElMessageBox, ElTable} from 'element-plus'
+import {useSettingStore} from "@/stores/setting";
+import type {News} from "@/api/news/type";
 
 const settingStore = useSettingStore()
 const router = useRouter()
@@ -17,9 +18,8 @@ const schForm = reactive({
   rows: 10,
 })
 const loading = ref(true)
-const newsList = ref([])
+const newsList = ref<News[]>([])
 const total = ref(0)
-
 // 获取新闻列表
 function getNewsListHandle() {
   loading.value = true
@@ -36,11 +36,11 @@ function getNewsListHandle() {
 
 getNewsListHandle()
 
-const tableRef = ref()
+const tableRef = ref<InstanceType<typeof ElTable>>()
 
 // 刷新
 function getListHandle() {
-  tableRef.value.clearSort() // 重置排序
+  tableRef.value!.clearSort() // 重置排序
   schForm.page = 1
   getNewsListHandle()
 }
@@ -59,12 +59,12 @@ function addNews() {
 }
 
 // 编辑新闻
-function editNewsHandle(row) {
+function editNewsHandle(row: News) {
   router.push({path: 'newsEdit', query: {id: row.id}})
 }
 
 // 切换状态
-function switchStatus(row) {
+function switchStatus(row: News) {
   loading.value = true
   const data = {
     id: row.id,
@@ -79,7 +79,7 @@ function switchStatus(row) {
 }
 
 // 删除新闻
-function delNewsHandle(row) {
+function delNewsHandle(row: News) {
   ElMessageBox.confirm('确定删除 ' + row.title, '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',

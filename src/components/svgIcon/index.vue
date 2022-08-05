@@ -1,27 +1,31 @@
 <script setup lang="ts">
-const props = defineProps({
-  className: {
-    type: String,
-  },
-  name: {
-    type: String,
-    required: true
-  },
+import type { Component } from 'vue'
+import { computed } from 'vue'
+
+const modules = import.meta.glob('@/assets/svg/*.svg', {
+  as: 'component',
+  eager: true,
+})
+const props = withDefaults(defineProps<{ name: string }>(), {})
+
+const currentComponent = computed<Component>(() => {
+  const fileName = '/' + props.name + '.svg'
+  for (const path in modules) {
+    const mod = modules[path]
+    if (path.endsWith(fileName)) {
+      return mod as Component
+    }
+  }
+  throw new Error('not found svg file:' + fileName)
 })
 </script>
 
 <template>
-  <svg class="svg-icon" :class="className" aria-hidden="true">
-    <use :href="'#icon-' + name"></use>
-  </svg>
+  <component :is="currentComponent" />
 </template>
 
 <style scoped>
-.svg-icon {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.16em;
+svg{
   fill: currentColor;
-  overflow: hidden;
 }
 </style>

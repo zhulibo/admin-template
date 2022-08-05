@@ -2,7 +2,7 @@
 import { useUserStore } from '@/stores/user'
 
 const userStore = useUserStore()
-const userInfo = userStore.getUserInfo
+const userInfo = userStore.getUserInfo!
 const logout = () => {
   localStorage.removeItem('token')
   localStorage.removeItem('userInfo')

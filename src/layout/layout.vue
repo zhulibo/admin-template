@@ -11,7 +11,7 @@ const cachePages = computed(() =>{
   const visitedPages = visitedPagesStore.getVisitedPages
   const res = []
   for (let i = 0; i < visitedPages.length; i++) {
-    if(visitedPages[i].meta && visitedPages[i].meta.cache) {
+    if(visitedPages[i].meta.cache) {
       res.push(visitedPages[i].name)
     }
   }

@@ -3,7 +3,7 @@ import { router } from '@/router'
 import { useUserStore } from '@/stores/user'
 import {ElMessage} from "element-plus";
 
-let userStore
+let userStore: any
 
 const http = new Http({
   timeout: 1000 * 60,
@@ -11,9 +11,9 @@ const http = new Http({
     requestInterceptors: (config) => {
       if(!userStore) userStore = useUserStore()
 
-      const token = userStore.getUserInfo && userStore.getUserInfo.token || ''
+      const token = userStore.getUserInfo?.token ?? ''
       if (token) {
-        config.headers.Authorization = 'Bearer ' + token
+        config.headers!.Authorization = 'Bearer ' + token
       }
       return config
     },
@@ -31,7 +31,7 @@ const http = new Http({
       }
     },
     responseInterceptorsCatch: (err) => {
-      if (err && err.response) {
+      if (err?.response) {
         switch (err.response.status) {
           case 500:
             err.message = '服务器错误(500)'

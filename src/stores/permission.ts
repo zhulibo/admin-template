@@ -13,9 +13,9 @@ export const usePermissionStore = defineStore('permission', {
     accessedRoutes: [] // 从后台获取的路由
   }),
   getters: {
-    getAddRouterStatus: (state) => state.addRouterStatus,
-    getRouters: (state) => state.routers,
-    getAccessedRoutes: (state) => state.accessedRoutes
+    getAddRouterStatus: (state): boolean => state.addRouterStatus,
+    getRouters: (state): RouterList[] => state.routers,
+    getAccessedRoutes: (state): RouterList[] => state.accessedRoutes
   },
   actions: {
     // 改变合并路由状态
@@ -52,7 +52,7 @@ function filterAsyncRouter(asyncRouterMap: RouterList[]) {
         route.component = loadComponent(route.component as string) as unknown as DefineComponent
       }
     }
-    if (route.children !== null && route.children && route.children.length) {
+    if (route.children?.length) {
       route.children = filterAsyncRouter(route.children)
     }
     return true

@@ -2,7 +2,7 @@
 import { ref, watch } from "vue";
 import { useSettingStore } from '@/stores/setting'
 import Editor from '@tinymce/tinymce-vue'
-import { fileUpload } from '@/api/common'
+import { fileUpload } from '@/api/common/common'
 
 const settingStore = useSettingStore()
 const props = defineProps({
@@ -21,7 +21,7 @@ watch(() => content, (content) => {
   emit('update:modelValue', content)
 },{ immediate: true })
 // 上传图片
-const handleImgUpload = (blobInfo, success, failure) => {
+const handleImgUpload = (blobInfo: any, success: any, failure: any) => {
   const data = new FormData()
   data.set('file', blobInfo.blob())
   fileUpload(data)

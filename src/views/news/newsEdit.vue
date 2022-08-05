@@ -1,23 +1,25 @@
 <script setup lang="ts">
 import { ref, reactive } from "vue"
 import { useRouter, useRoute } from "vue-router";
-// import imgUpload from '@/components/fileUpload/imgUpload.vue'
+import imgUpload from '@/components/fileUpload/imgUpload.vue'
 import richText from '@/components/richText/index.vue'
 import { goBack } from "@/hooks/hooks";
-import { getNewsDetail, editNews, addNews } from "@/api/news";
-import { ElMessage } from 'element-plus'
+import { getNewsDetail, editNews, addNews } from "@/api/news/news";
+import {ElMessage} from 'element-plus'
+import type {FormInstance} from 'element-plus'
+import type {News} from "@/api/news/type";
 
 const router = useRouter()
 const route = useRoute()
 
-const id = route.query.id
+const id = route.query.id as unknown as number
 
 // 获取新闻详情
 function getNewsDetailHandle() {
   getNewsDetail(id)
     .then(res => {
       for (const key in newsForm) {
-        newsForm[key] = res.data[key]
+        newsForm[key as keyof typeof newsForm] = res.data[key as keyof typeof newsForm]
       }
     })
 }
@@ -26,7 +28,7 @@ if(id) {
   getNewsDetailHandle()
 }
 
-const newsForm = reactive({
+const newsForm = reactive<News>({
   title: '',
   type: '',
   status: '',
@@ -38,11 +40,11 @@ const newsRules = {
   imgUrl: [{ required: true, message: '请输入', trigger: 'blur' }],
   content: [{ required: true, message: '请输入', trigger: 'blur' }]
 }
-const newsFormRef = ref()
+const newsFormRef = ref<FormInstance>()
 
 // 提交表单
 function submitNewsForm() {
-   newsFormRef.value.validate(valid => {
+   newsFormRef.value?.validate(valid => {
      if(valid) {
        if(id) { // 编辑
          newsForm.id = id
@@ -87,11 +89,11 @@ function submitNewsForm() {
               <el-input v-model="newsForm.status" placeholder="请输入"></el-input>
             </el-form-item>
           </el-col>
-<!--          <el-col :span="24">-->
-<!--            <el-form-item label="图片" prop="imgUrl">-->
-<!--              <imgUpload v-model="newsForm.imgUrl" :limit="5"></imgUpload>-->
-<!--            </el-form-item>-->
-<!--          </el-col>-->
+          <el-col :span="24">
+            <el-form-item label="图片" prop="imgUrl">
+              <imgUpload v-model="newsForm.imgUrl" :limit="5"></imgUpload>
+            </el-form-item>
+          </el-col>
           <el-col :span="24">
             <el-form-item label="内容" prop="content">
               <richText v-model="newsForm.content"></richText>

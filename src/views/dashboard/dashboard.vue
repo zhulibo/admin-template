@@ -20,7 +20,17 @@ const newObj = deepCopy(obj)
   <!--  <p>{{x}}</p>-->
   <!--  <p>{{y}}</p>-->
   {{newObj}}
+  <p v-drag>123</p>
 </template>
 
 <style scoped>
+p{
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  background-color: #ccc;
+}
 </style>

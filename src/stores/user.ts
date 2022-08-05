@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import type {UserInfo} from "@/api/type";
+import type {UserInfo} from "@/api/user/type";
 import type {UserState} from "@/stores/type";
 
 export const useUserStore = defineStore('user', {

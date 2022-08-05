@@ -1,19 +1,27 @@
 <script setup lang="ts">
 import path from 'path-browserify'
 import { ref } from "vue";
+import type {PropType} from "vue";
+import type {RouterList} from "@/stores/type";
 
 const props = defineProps({
-  item: {},
-  basePath: {},
+  item: {
+    type: Object as PropType<RouterList>,
+    required: true
+  },
+  basePath: {
+    type: String,
+    required: true
+  },
 })
 
-const submenuList = (props.item.children || []).filter((item) => { // 子菜单数组
-  return !item.meta.hidden
+const submenuList = (props.item.children ?? []).filter((item) => { // 子菜单数组
+  return !item.meta?.hidden
 })
 
 const hasSubmenu = ref(submenuList.length > 0) // 有下一级菜单
 
-const resolvePath = (routePath) => {
+const resolvePath = (routePath: string) => {
   return path.resolve(props.basePath, routePath)
 }
 </script>
@@ -21,13 +29,13 @@ const resolvePath = (routePath) => {
 <template>
   <el-sub-menu v-if="hasSubmenu" :index="item.path">
     <template #title>
-<!--      <icon className="icon-nav" name="arrow_right"></icon>-->
+      <icon name="shucai" width="16" fill="#666"></icon>
       <span>{{ item.meta.title }}</span>
     </template>
     <navItem v-for="child in item.children" :key="child.path" :item="child" :basePath="resolvePath(child.path)"></navItem>
   </el-sub-menu>
   <el-menu-item v-else-if="!item.meta.hidden" :index="basePath">
-<!--    <icon className="icon-nav" name="arrow_right"></icon>-->
+    <icon name="arrow-right" width="16"></icon>
     <span>{{ item.meta.title }}</span>
   </el-menu-item>
 </template>

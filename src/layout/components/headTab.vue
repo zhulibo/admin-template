@@ -11,12 +11,7 @@ const visitedPages = computed(() => {
 })
 
 watch(() => route, (route) => {
-  visitedPagesStore.addVisitedPage({
-    name: route.name,
-    path: route.path,
-    query: route.query,
-    meta: route.meta,
-  })
+  visitedPagesStore.addVisitedPage(route)
 }, {immediate: true, deep: true})
 </script>
 

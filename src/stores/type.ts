@@ -1,20 +1,13 @@
-import type {UserInfo} from "@/api/type";
+import type {UserInfo} from "@/api/user/type";
 import type { DefineComponent } from 'vue'
-import type { RouteRecordRaw } from 'vue-router'
+import type {RouteLocationNormalized, RouteRecordRaw} from 'vue-router'
 
 export interface UserState {
   userInfo: UserInfo | null
 }
 
-export interface VisitedPage {
-  name: string
-  path: string
-  query: string
-  meta: object
-}
-
 export interface VisitedState {
-  visitedPages: VisitedPage[]
+  visitedPages: RouteLocationNormalized[]
 }
 
 export interface SettingState {

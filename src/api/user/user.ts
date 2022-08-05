@@ -1,5 +1,5 @@
 import http from '@/axios'
-import type {UserInfo, LoginParams} from "@/api/type";
+import type {UserInfo, LoginParams} from "@/api/user/type";
 import type {RouterList} from "@/stores/type";
 
 // 登录

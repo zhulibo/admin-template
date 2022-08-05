@@ -1,9 +1,10 @@
 import {useUserStore} from '@/stores/user'
 import { ElMessage } from 'element-plus'
+import type {App} from "vue";
 
-let userStore
+let userStore: any
 
-export default function install(app) {
+export default function install(app: App) {
   app.directive('permission', { // 权限
     mounted(el, binding) {
 
@@ -14,7 +15,7 @@ export default function install(app) {
       if (value && value instanceof Array && value.length > 0) {
         const hasPermission = value.every((val) => permissions.includes(val))
         if (!hasPermission) {
-          el.parentNode && el.parentNode.removeChild(el)
+          el.parentNode?.removeChild(el)
         }
       } else {
         throw new Error(`需要权限值，如：v-permission="['aaa:bbb:ccc','xxx:yyy']"`)
@@ -23,7 +24,7 @@ export default function install(app) {
   })
   app.directive('drag', { // 拖动
     mounted(el) {
-      el.onmousedown = (e) => {
+      el.onmousedown = (e: MouseEvent) => {
         // 点击处和div左上角的位差
         const disX = e.clientX - el.offsetLeft
         const disY = e.clientY - el.offsetTop
@@ -46,9 +47,10 @@ export default function install(app) {
           el.style.bottom = 'auto'
           el.style.left = left + 'px'
           el.style.top = top + 'px'
+          // 防止选中文字
           window.getSelection
-            ? window.getSelection().removeAllRanges()
-            : document.selection.empty()
+            ? (window.getSelection() as any).removeAllRanges()
+            : (document as any).selection.empty()
         }
         document.onmouseup = () => {
           document.onmousemove = null // 鼠标弹起来的时候不再移动
@@ -59,7 +61,7 @@ export default function install(app) {
   })
   app.directive('stopDrag', { // 禁止拖动
     mounted(el) {
-      el.onmousedown = function(e) {
+      el.onmousedown = function(e: MouseEvent) {
         e.stopPropagation()
       }
     },
