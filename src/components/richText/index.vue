@@ -42,7 +42,7 @@ const handleImgUpload = (blobInfo: any, success: any, failure: any) => {
     menubar: false,
     plugins: 'lists link image help wordcount',
     toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | help image',
-    images_upload_handler: (blobInfo, success, failure) => {
+    images_upload_handler: (blobInfo: any, success: any, failure: any) => {
       handleImgUpload(blobInfo, success, failure)
     }
   }"

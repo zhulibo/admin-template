@@ -19,11 +19,13 @@ import pagination from '@/components/pagination/index.vue' // 分页组件
 import icon from '@/components/svgIcon/index.vue' // svg图表组件
 
 // 发布版本清除localStorage
-// const localAppInfo = JSON.parse(localStorage.getItem('__APP_INFO__') ?? '')
-// if (!import.meta.env.DEV && (!localAppInfo || localAppInfo.lastBuildTime !== __APP_INFO__.lastBuildTime)) {
-//   localStorage.clear()
-// }
-// localStorage.setItem('__APP_INFO__', JSON.stringify(__APP_INFO__))
+if (!import.meta.env.DEV) {
+  const localAppInfo = JSON.parse(localStorage.getItem('APP_INFO') || '{}')
+  if (localAppInfo.lastBuildTime !== __APP_INFO__.lastBuildTime) {
+    localStorage.clear()
+    localStorage.setItem('APP_INFO', JSON.stringify(__APP_INFO__))
+  }
+}
 
 const app = createApp(App)
 

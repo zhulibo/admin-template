@@ -13,7 +13,6 @@ if (localUserInfo){
   // 加载缓存数据
   // getDictAreaList()
 }
-
 </script>
 
 <template>

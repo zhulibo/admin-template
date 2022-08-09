@@ -15,7 +15,7 @@ export interface SettingState {
 }
 
 export type RouterList = RouteRecordRaw & {
-  component?: string | DefineComponent
+  component?: DefineComponent | string
   children?: RouterList[]
 }
 

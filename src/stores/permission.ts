@@ -45,9 +45,9 @@ function filterAsyncRouter(asyncRouterMap: RouterList[]) {
   return asyncRouterMap.filter(route => {
     if (route.component) {
       if (route.component === 'layout') {
-        route.component = layout
+        route.component = layout as unknown as DefineComponent
       }else if (route.component === 'routeWrapper') {
-        route.component = routeWrapper
+        route.component = routeWrapper as unknown as DefineComponent
       }else {
         route.component = loadComponent(route.component as string) as unknown as DefineComponent
       }

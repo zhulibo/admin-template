@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { login } from '@/api/user/user'
 import type {FormInstance, FormRules} from "element-plus";
+import {encrypt} from "@/utils/aes";
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -22,7 +23,10 @@ const loginFormRef = ref<FormInstance>()
 function submitLoginForm() {
   loginFormRef.value?.validate(valid => {
     if(valid) {
-      login(loginForm)
+      login({
+        account: loginForm.account,
+        password: encrypt(loginForm.password)
+      })
         .then(res => {
           userStore.updateUserInfo(res.data)
           router.push({ path: '/home/dashboard' })

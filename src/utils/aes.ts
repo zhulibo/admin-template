@@ -1,7 +1,7 @@
 import { enc, AES, mode, pad } from 'crypto-js'
 
-const secretKey = '1234567890132456'
-const iv = '1234567890132456'
+const secretKey = '1234567890123456'
+const iv = '1234567890123456'
 
 /**
  * ASE加密
@@ -9,12 +9,12 @@ const iv = '1234567890132456'
  * @param {string} key - 加密密钥（长度必须是 16 的整数倍）
  * @param {string} offset - 偏移量
  */
-export function Encrypt(word: any, key = secretKey, offset = iv) {
-  // 未加密的参数 从 UTF-8编码 解析出原始字符串
+export function encrypt(word: any, key = secretKey, offset = iv) {
+  // 未加密的参数 从UTF-8编码解析出原始字符串
   const wordUTF8 = enc.Utf8.parse(word)
-  // 密钥 从 UTF-8编码 解析出原始字符串
+  // 密钥 从UTF-8编码解析出原始字符串
   const keyUTF8 = enc.Utf8.parse(key)
-  // 偏移量 从 UTF-8编码 解析出原始字符串
+  // 偏移量 从UTF-8编码解析出原始字符串
   const offsetUTF8 = enc.Utf8.parse(offset)
 
   const encrypted = AES.encrypt(wordUTF8, keyUTF8, {
@@ -32,7 +32,7 @@ export function Encrypt(word: any, key = secretKey, offset = iv) {
  * @param {string} key - 加密密钥（长度必须是 16 的整数倍）
  * @param {string} offset - 偏移量
  */
-export function Decrypt(encryptedWord: any, key = secretKey, offset = iv) {
+export function decrypt(encryptedWord: any, key = secretKey, offset = iv) {
   const keyUTF8 = enc.Utf8.parse(key)
   const offsetUTF8 = enc.Utf8.parse(offset)
 

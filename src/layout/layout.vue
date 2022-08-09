@@ -7,12 +7,12 @@ import sideNav from './components/sideNav.vue'
 
 const visitedPagesStore = useVisitedPagesStore()
 
-const cachePages = computed(() =>{
+const cachePages = computed((): string[] =>{
   const visitedPages = visitedPagesStore.getVisitedPages
   const res = []
   for (let i = 0; i < visitedPages.length; i++) {
     if(visitedPages[i].meta.cache) {
-      res.push(visitedPages[i].name)
+      res.push(visitedPages[i].name as string)
     }
   }
   return res
