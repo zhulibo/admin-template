@@ -3,7 +3,7 @@ import { ref, reactive } from "vue"
 import { useRouter, useRoute } from "vue-router";
 import imgUpload from '@/components/fileUpload/imgUpload.vue'
 import richText from '@/components/richText/index.vue'
-import { goBack } from "@/hooks/hooks";
+import { goBack } from "@/hooks";
 import { getNewsDetail, editNews, addNews } from "@/api/news/news";
 import {ElMessage} from 'element-plus'
 import type {FormInstance} from 'element-plus'
@@ -15,7 +15,7 @@ const route = useRoute()
 const id = route.query.id as unknown as number
 
 // 获取新闻详情
-function getNewsDetailHandle() {
+const getNewsDetailHandle = () => {
   getNewsDetail(id)
     .then(res => {
       for (const key in newsForm) {
@@ -43,7 +43,7 @@ const newsRules = {
 const newsFormRef = ref<FormInstance>()
 
 // 提交表单
-function submitNewsForm() {
+const submitNewsForm = () => {
    newsFormRef.value?.validate(valid => {
      if(valid) {
        if(id) { // 编辑

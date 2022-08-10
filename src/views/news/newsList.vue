@@ -21,7 +21,7 @@ const loading = ref(true)
 const newsList = ref<News[]>([])
 const total = ref(0)
 // 获取新闻列表
-function getNewsListHandle() {
+const getNewsListHandle = () => {
   loading.value = true
   getNewsList(schForm)
     .then(res => {
@@ -39,8 +39,8 @@ getNewsListHandle()
 const tableRef = ref<InstanceType<typeof ElTable>>()
 
 // 刷新
-function getListHandle() {
-  tableRef.value!.clearSort() // 重置排序
+const getListHandle = () => {
+  tableRef.value?.clearSort() // 重置排序
   schForm.page = 1
   getNewsListHandle()
 }
@@ -48,23 +48,23 @@ function getListHandle() {
 const schFormRef = ref()
 
 // 重置搜索条件
-function resetForm() {
+const resetForm = () => {
   schFormRef.value.resetFields()
   getListHandle()
 }
 
 // 新增新闻
-function addNews() {
+const addNews = () => {
   router.push({path: 'newsEdit'})
 }
 
 // 编辑新闻
-function editNewsHandle(row: News) {
+const editNewsHandle = (row: News) => {
   router.push({path: 'newsEdit', query: {id: row.id}})
 }
 
 // 切换状态
-function switchStatus(row: News) {
+const switchStatus = (row: News) => {
   loading.value = true
   const data = {
     id: row.id,
@@ -79,7 +79,7 @@ function switchStatus(row: News) {
 }
 
 // 删除新闻
-function delNewsHandle(row: News) {
+const delNewsHandle = (row: News) => {
   ElMessageBox.confirm('确定删除 ' + row.title, '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',

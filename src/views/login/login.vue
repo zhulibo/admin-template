@@ -20,7 +20,7 @@ const loginRule = reactive<FormRules>({
 const loginFormRef = ref<FormInstance>()
 
 // 登录
-function submitLoginForm() {
+const submitLoginForm = () => {
   loginFormRef.value?.validate(valid => {
     if(valid) {
       login({
