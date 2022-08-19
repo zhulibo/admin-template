@@ -28,7 +28,7 @@ watch(() => route, (route) => {
   </div>
 </template>
 
-<style scoped>
+<style lang="pcss" scoped>
 .head-tab{
   position: absolute;
   z-index: 100;

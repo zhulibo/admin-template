@@ -5,5 +5,5 @@
   <div class="wrapper">menuList</div>
 </template>
 
-<style scoped>
+<style lang="pcss" scoped>
 </style>

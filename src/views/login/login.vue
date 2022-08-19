@@ -53,7 +53,7 @@ const submitLoginForm = () => {
   </div>
 </template>
 
-<style scoped>
+<style lang="pcss" scoped>
 .bg-ct{
   overflow: hidden;
   height: 100%;

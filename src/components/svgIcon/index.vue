@@ -24,7 +24,7 @@ const currentComponent = computed<Component>(() => {
   <component :is="currentComponent" />
 </template>
 
-<style scoped>
+<style lang="pcss" scoped>
 svg{
   fill: currentColor;
 }

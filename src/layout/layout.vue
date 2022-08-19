@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import {computed} from "vue";
 import {useVisitedPagesStore} from "@/stores/visitedPage";
-import headBar from './components/headBar.vue'
-import headTab from './components/headTab.vue'
-import sideNav from './components/sideNav.vue'
+import HeadBar from './components/HeadBar.vue'
+import HeadTab from './components/HeadTab.vue'
+import SideNav from './components/SideNav.vue'
 
 const visitedPagesStore = useVisitedPagesStore()
 
@@ -20,9 +20,9 @@ const cachePages = computed((): string[] =>{
 </script>
 
 <template>
-  <headBar></headBar>
-  <headTab></headTab>
-  <sideNav></sideNav>
+  <HeadBar></HeadBar>
+  <HeadTab></HeadTab>
+  <SideNav></SideNav>
   <div class="main-ct">
     <router-view v-slot="{ Component }">
       <keep-alive :max="10" :include="cachePages">
@@ -32,7 +32,7 @@ const cachePages = computed((): string[] =>{
   </div>
 </template>
 
-<style scoped>
+<style lang="pcss" scoped>
 .main-ct{
   position: absolute;
   top: 81px;

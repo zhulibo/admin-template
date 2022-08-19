@@ -1,9 +1,3 @@
-@define-mixin test $width, $color: blue {
-  width: $width;
-  color: $color;
-  font-weight: bold;
-}
-
 @define-mixin clearfix {
   &::after{
     content: "\200B";
@@ -14,7 +8,7 @@
 }
 
 @define-mixin scrollBar $width: 8px, $color: rgba(0, 0, 0, .2)) {
-  // chrome
+  /* chrome */
   &::-webkit-scrollbar {
     width: $width;
   }
@@ -24,7 +18,7 @@
   &::-webkit-scrollbar-track {
     background-color: transparent;
   }
-  // 火狐
+  /* 火狐 */
   scrollbar-color: color transparent;
   scrollbar-width: thin;
 }

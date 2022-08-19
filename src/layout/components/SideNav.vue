@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import navItem from './navItem.vue'
+import navItem from './NavItem.vue'
 import { reactive } from 'vue'
 import { usePermissionStore } from '@/stores/permission'
 import { useRoute } from 'vue-router'
@@ -26,7 +26,7 @@ const routers = reactive(permissionStore.getRouters)
   </div>
 </template>
 
-<style scoped>
+<style lang="pcss" scoped>
 .side-nav{
   overflow-x: hidden;
   overflow-y: auto;

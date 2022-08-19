@@ -129,7 +129,7 @@ const handleImgPreview: UploadProps['onPreview'] = (file) => {
   </div>
 </template>
 
-<style scoped>
+<style lang="pcss" scoped>
 .file-upload{
   & :deep(.hide .el-upload--picture-card) {
     display: none;

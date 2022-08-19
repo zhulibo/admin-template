@@ -8,5 +8,5 @@
 <div>2333</div>
 </template>
 
-<style scoped>
+<style lang="pcss" scoped>
 </style>
