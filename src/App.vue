@@ -19,7 +19,13 @@ if (localUserInfo){
   <router-view />
 </template>
 
-<style>
+<style lang="pcss">
+@layer base, common, element, element-customize;
+@import url(./assets/css/base.pcss) layer(base);
+@import url(./assets/css/common.pcss) layer(common);
+@import url(element-plus/dist/index.css) layer(element);
+@import url(./assets/css/element-customize.pcss) layer(element-customize);
+
 #app{
   height: 100%;
 }

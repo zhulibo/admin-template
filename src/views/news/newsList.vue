@@ -87,7 +87,7 @@ const delNewsHandle = (row: News) => {
   })
     .then(() => {
       loading.value = true
-      delNews(row.id)
+      delNews(row.id!)
         .then(() => {
           getNewsListHandle()
           ElMessage.success('删除成功')

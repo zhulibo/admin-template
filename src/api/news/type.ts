@@ -10,7 +10,7 @@ export interface NewsListParams {
 export interface News {
   content?: string
   createTime?: string
-  id?: any // todo
+  id?: string
   imgUrl?: string
   status?: string
   title?: string

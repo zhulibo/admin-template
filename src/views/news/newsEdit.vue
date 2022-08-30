@@ -12,7 +12,7 @@ import type {News} from "@/api/news/type";
 const router = useRouter()
 const route = useRoute()
 
-const id = route.query.id as unknown as number
+const id = route.query.id as unknown as string
 
 // 获取新闻详情
 const getNewsDetailHandle = () => {
