@@ -20,7 +20,12 @@ if (localUserInfo){
 </template>
 
 <style lang="pcss">
-@layer base, common, element, element-customize;
+/* 定义css级联层 */
+@layer base;
+@layer common;
+@layer element;
+@layer element-customize;
+
 @import url(./assets/css/base.pcss) layer(base);
 @import url(./assets/css/common.pcss) layer(common);
 @import url(element-plus/dist/index.css) layer(element);

@@ -10,8 +10,8 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
 import directive from '@/directive' // 自定义指令
 
-import pagination from '@/components/pagination/index.vue' // 分页组件
-import icon from '@/components/svgIcon/index.vue' // svg图表组件
+import Pagination from '@/components/pagination/Pagination.vue' // 分页组件
+import Icon from '@/components/svgIcon/SvgIcon.vue' // svg图标组件
 
 // 发布版本清除localStorage
 if (!import.meta.env.DEV) {
@@ -29,7 +29,7 @@ app
   .use(router)
   .use(ElementPlus, { locale: zhCn })
   .use(directive)
-  .component('page', pagination)
-  .component('icon', icon)
+  .component('Page', Pagination)
+  .component('Icon', Icon)
   .mount('#app')
 

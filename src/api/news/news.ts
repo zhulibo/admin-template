@@ -11,7 +11,7 @@ export function getNewsList(params: NewsListParams) {
 }
 
 // 获取新闻详情
-export function getNewsDetail(id: string) {
+export function getNewsDetail(id: number) {
   return http.request<News>({
     url: '/api/article/news/detail/' + id,
     method: 'get',
@@ -28,7 +28,7 @@ export function addNews(data: News) {
 }
 
 // 编辑新闻
-export function editNews(data: News) {
+export function editNews(data: Partial<News>) {
   return http.request({
     url: '/api/article/news/update',
     method: 'put',
@@ -37,7 +37,7 @@ export function editNews(data: News) {
 }
 
 // 删除新闻
-export function delNews(id: string) {
+export function delNews(id: number) {
   return http.request({
     url: '/api/article/news/del/' + id,
     method: 'delete',

@@ -4,22 +4,24 @@ import { useRouter } from 'vue-router'
 import { getNewsList, editNews, delNews } from '@/api/news/news'
 import {ElMessage, ElMessageBox, ElTable} from 'element-plus'
 import {useSettingStore} from "@/stores/setting";
-import type {News} from "@/api/news/type";
+import type {News, NewsListParams} from "@/api/news/type";
 
 const settingStore = useSettingStore()
 const router = useRouter()
 
-const schForm = reactive({
+const schForm = reactive<NewsListParams>({
   title: '',
   startTime: '',
   endTime: '',
-  status: '',
+  status: undefined,
   page: 1,
   rows: 10,
 })
+
 const loading = ref(true)
 const newsList = ref<News[]>([])
 const total = ref(0)
+
 // 获取新闻列表
 const getNewsListHandle = () => {
   loading.value = true
@@ -54,7 +56,7 @@ const resetForm = () => {
 }
 
 // 新增新闻
-const addNews = () => {
+const addNewsHandle = () => {
   router.push({path: 'newsEdit'})
 }
 
@@ -71,9 +73,9 @@ const switchStatus = (row: News) => {
     status: row.status,
   }
   editNews(data).then(res => {
-    ElMessage.success('操作成功')
+    ElMessage.success(res.msg)
     getNewsListHandle()
-  }).catch(e => {
+  }).catch(() => {
     getNewsListHandle()
   })
 }
@@ -86,14 +88,10 @@ const delNewsHandle = (row: News) => {
     type: 'warning'
   })
     .then(() => {
-      loading.value = true
       delNews(row.id!)
-        .then(() => {
+        .then(res => {
+          ElMessage.success(res.msg)
           getNewsListHandle()
-          ElMessage.success('删除成功')
-        })
-        .catch(() => {
-          loading.value = false
         })
     })
 }
@@ -127,12 +125,12 @@ const delNewsHandle = (row: News) => {
         </el-form>
       </div>
       <div class="new-item">
-        <el-button type="primary" @click="addNews"><i class="el-icon-plus"></i>新增</el-button>
+        <el-button type="primary" @click="addNewsHandle"><icon name="add" />新增</el-button>
       </div>
     </div>
     <el-table ref="tableRef" :data="newsList" v-loading="loading">
       <el-table-column type="index" width="50"></el-table-column>
-      <el-table-column prop="createTime" label="时间" sortable min-width="200"></el-table-column>
+      <el-table-column prop="createTime" label="时间" align="center" width="160" sortable></el-table-column>
       <el-table-column prop="title" label="标题" min-width="300">
         <template #default="scope">
           <span v-copy="scope.row.title">{{scope.row.title}}</span>
@@ -151,7 +149,7 @@ const delNewsHandle = (row: News) => {
 <!--        </template>-->
 <!--      </el-table-column>-->
       <el-table-column prop="type" label="分类" min-width="120"></el-table-column>
-      <el-table-column prop="" label="地区" align="center" sortable :sort-by="['province', 'city', 'area']" min-width="200">
+      <el-table-column prop="" label="地区" align="center" min-width="200" sortable :sort-by="['province', 'city', 'area']">
         <template #default="scope">
           <span v-if="scope.row.province">{{scope.row.province + ' ' + scope.row.city + ' ' + scope.row.area}}</span>
           <span v-else>-</span>
@@ -161,21 +159,21 @@ const delNewsHandle = (row: News) => {
         <template #default="scope">
           <el-switch
             v-model="scope.row.status"
-            active-value="1"
-            inactive-value="0"
+            :active-value="1"
+            :inactive-value="0"
             @change="switchStatus(scope.row)"
           >
           </el-switch>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" min-width="200" fixed="right">
+      <el-table-column label="操作" align="center" width="200" fixed="right" class-name="manage-td">
         <template #default="scope">
-          <el-button type="primary" link icon="el-icon-edit" @click="editNewsHandle(scope.row)" v-permission="['news:edit']">修改</el-button>
-          <el-button type="warning" link icon="el-icon-delete" @click="delNewsHandle(scope.row)" v-permission="['news:del']">删除</el-button>
+          <el-button type="primary" link @click="editNewsHandle(scope.row)" v-permission="['news:edit']"><icon name="edit" />修改</el-button>
+          <el-button type="warning" link @click="delNewsHandle(scope.row)" v-permission="['news:del']"><icon name="del" />删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <page v-model:currentPage="schForm.page" :total="total" @getList="getNewsListHandle"></page>
+    <Page v-model:currentPage="schForm.page" :total="total" @getList="getNewsListHandle"></Page>
   </div>
 </template>
 

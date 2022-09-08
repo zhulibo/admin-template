@@ -31,13 +31,12 @@ const page = computed({
     v-model:current-page="page"
     :total="total"
     background
-  >
-  </el-pagination>
+  />
 </template>
 
 <style lang="pcss" scoped>
 .el-pagination{
   margin-top: 10px;
-  text-align: right;
+  justify-content: center;
 }
 </style>

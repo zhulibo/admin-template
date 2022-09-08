@@ -16,10 +16,12 @@ const emit = defineEmits([
 ])
 
 const content = ref(props.modelValue)
+
 // 向父组件输出值
-watch(() => content, (content) => {
+watch(() => content, content => {
   emit('update:modelValue', content)
-},{ immediate: true })
+},{immediate: true})
+
 // 上传图片
 const handleImgUpload = (blobInfo: any, success: any, failure: any) => {
   const data = new FormData()

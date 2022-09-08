@@ -1,19 +1,18 @@
 import http from '@/axios'
-import type {MenuListParams, Menu} from "@/api/menu/type";
+import type {Menu} from "@/api/menu/type";
 
 // 获取菜单列表
-export function getMenuList(params: MenuListParams) {
+export function getMenuList() {
   return http.request<Menu[]>({
-    url: '/api/article/news/list',
+    url: '/api/menu/list',
     method: 'get',
-    params
   })
 }
 
 // 获取菜单详情
-export function getMenuDetail(id: string) {
+export function getMenuDetail(id: number) {
   return http.request<Menu>({
-    url: '/api/article/news/detail/' + id,
+    url: '/api/menu/detail/' + id,
     method: 'get',
   })
 }
@@ -21,25 +20,25 @@ export function getMenuDetail(id: string) {
 // 新增菜单
 export function addMenu(data: Menu) {
   return http.request({
-    url: '/api/article/news/add',
+    url: '/api/menu/add',
     method: 'post',
     data
   })
 }
 
 // 编辑菜单
-export function editMenu(data: Menu) {
+export function editMenu(data: Partial<Menu>) {
   return http.request({
-    url: '/api/article/news/update',
+    url: '/api/menu/update',
     method: 'put',
     data
   })
 }
 
 // 删除菜单
-export function delMenu(id: string) {
+export function delMenu(id: number) {
   return http.request({
-    url: '/api/article/news/del/' + id,
+    url: '/api/menu/del/' + id,
     method: 'delete',
   })
 }

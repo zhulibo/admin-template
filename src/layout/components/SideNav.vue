@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import navItem from './NavItem.vue'
+import NavItem from './NavItem.vue'
 import { reactive } from 'vue'
 import { usePermissionStore } from '@/stores/permission'
 import { useRoute } from 'vue-router'
@@ -20,7 +20,7 @@ const routers = reactive(permissionStore.getRouters)
     background-color="#545c64"
     >
       <template v-for="route in routers" :key="route.path">
-        <navItem v-if="!route.meta?.hidden" :item="route" :basePath="route.path"></navItem>
+        <NavItem v-if="!route.meta?.hidden" :item="route" :basePath="route.path"></NavItem>
       </template>
     </el-menu>
   </div>
@@ -38,8 +38,6 @@ const routers = reactive(permissionStore.getRouters)
   box-sizing: border-box;
   width: 200px;
   background-color: #545c64;
-  & p{
-    height: 500px;
-  }
+  @mixin scrollBar;
 }
 </style>

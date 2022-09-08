@@ -6,7 +6,9 @@ const modules = import.meta.glob('@/assets/svg/*.svg', {
   as: 'component',
   eager: true,
 })
-const props = withDefaults(defineProps<{ name: string }>(), {})
+const props = withDefaults(defineProps<{ name: string, size?: string }>(), {
+  size: '1em'
+})
 
 const currentComponent = computed<Component>(() => {
   const fileName = '/' + props.name + '.svg'
@@ -21,7 +23,7 @@ const currentComponent = computed<Component>(() => {
 </script>
 
 <template>
-  <component :is="currentComponent" />
+  <component :is="currentComponent" :width="size" :height="size" />
 </template>
 
 <style lang="pcss" scoped>

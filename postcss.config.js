@@ -10,7 +10,7 @@ module.exports = {
     postcssPresetEnv({
       stage: 0,
       features: {
-        'cascade-layers': false // 禁用layer属性转换(layer处于stage2)
+        'cascade-layers': false // 禁用layer属性转换
       }
     }),
     postcssMixins({

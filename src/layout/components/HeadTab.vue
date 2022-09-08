@@ -2,6 +2,7 @@
 import {computed, watch} from "vue";
 import { useVisitedPagesStore } from '@/stores/visitedPage'
 import {useRoute} from "vue-router";
+import type {RouteLocationNormalized} from "vue-router";
 
 const visitedPagesStore = useVisitedPagesStore()
 const route = useRoute()
@@ -10,17 +11,21 @@ const visitedPages = computed(() => {
   return visitedPagesStore.getVisitedPages
 })
 
-watch(() => route, (route) => {
-  visitedPagesStore.addVisitedPage(route)
-}, {immediate: true, deep: true})
+watch(() => route.path, () => {
+  visitedPagesStore.addVisitedPage({
+    name: route.name,
+    path: route.path,
+    meta: route.meta
+  } as unknown as RouteLocationNormalized)
+}, {immediate: true})
 </script>
 
 <template>
   <div class="head-tab">
     <router-link
+      class="tab-item"
       v-for="item in visitedPages"
       :key="item.path"
-      class="tab-item"
       :to="{path: item.path, query: item.query}"
     >
       <span>{{item.meta.title}}</span>

@@ -1,23 +1,15 @@
-export interface MenuListParams {
-  title?: string,
-  startTime?: string,
-  endTime?: string,
-  status?: string,
-  page?: number,
-  rows?: number,
-}
-
 export interface Menu {
-  id?: string
-  parentId?: string
-  name?: string
-  path?: string
-  component?: string
-  title?: string
-  hidden?: string
-  cache?: string
-  orderNum?: string
-  status?: string
-  createTime?: string
-  updateTime?: string
+  id?: number
+  parentId: string
+  name: string
+  path: string
+  component: string
+  title: string
+  hidden: number
+  cache: number
+  orderNum: number
+  status: number
+  children?: Menu[]
+  // createTime?: string
+  // updateTime?: string
 }

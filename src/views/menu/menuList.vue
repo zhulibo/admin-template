@@ -1,32 +1,19 @@
 <script setup lang="ts">
-import { reactive, ref} from "vue"
-import { useRouter } from 'vue-router'
-import { getMenuList, editMenu, delMenu } from '@/api/menu/menu'
+import {nextTick, reactive, ref, watch} from "vue"
+import { getMenuList, addMenu, editMenu, delMenu } from '@/api/menu/menu'
 import {ElMessage, ElMessageBox, ElTable} from 'element-plus'
-import {useSettingStore} from "@/stores/setting";
+import type {FormInstance, FormRules} from "element-plus";
 import type {Menu} from "@/api/menu/type";
 
-const settingStore = useSettingStore()
-const router = useRouter()
-
-const schForm = reactive({
-  title: '',
-  startTime: '',
-  endTime: '',
-  status: '',
-  page: 1,
-  rows: 10,
-})
 const loading = ref(true)
-const newsList = ref<Menu[]>([])
-const total = ref(0)
+const menuList = ref<Menu[]>([])
+
 // 获取菜单列表
 const getMenuListHandle = () => {
   loading.value = true
-  getMenuList(schForm)
+  getMenuList()
     .then(res => {
-      newsList.value = res.data
-      total.value = res.total
+      menuList.value = res.data
       loading.value = false
     })
     .catch(() => {
@@ -40,27 +27,7 @@ const tableRef = ref<InstanceType<typeof ElTable>>()
 
 // 刷新
 const getListHandle = () => {
-  tableRef.value?.clearSort() // 重置排序
-  schForm.page = 1
   getMenuListHandle()
-}
-
-const schFormRef = ref()
-
-// 重置搜索条件
-const resetForm = () => {
-  schFormRef.value.resetFields()
-  getListHandle()
-}
-
-// 新增菜单
-const addMenu = () => {
-  router.push({path: 'newsEdit'})
-}
-
-// 编辑菜单
-const editMenuHandle = (row: Menu) => {
-  router.push({path: 'newsEdit', query: {id: row.id}})
 }
 
 // 切换状态
@@ -73,7 +40,7 @@ const switchStatus = (row: Menu) => {
   editMenu(data).then(res => {
     ElMessage.success('操作成功')
     getMenuListHandle()
-  }).catch(e => {
+  }).catch(() => {
     getMenuListHandle()
   })
 }
@@ -86,96 +53,247 @@ const delMenuHandle = (row: Menu) => {
     type: 'warning'
   })
     .then(() => {
-      loading.value = true
       delMenu(row.id!)
-        .then(() => {
+        .then(res => {
+          ElMessage.success(res.msg)
           getMenuListHandle()
-          ElMessage.success('删除成功')
-        })
-        .catch(() => {
-          loading.value = false
         })
     })
 }
+
+const dialogEditVisible = ref(false)
+const menuFormRef = ref<FormInstance>()
+
+// 新增菜单
+const addMenuHandle = async(row: Menu) => {
+  dialogEditVisible.value = true
+  await nextTick()
+  resetMenuForm()
+}
+
+// 编辑菜单
+const editMenuHandle = async(row: Menu) => {
+  dialogEditVisible.value = true
+  resetMenuForm()
+  await nextTick()
+  for (const key in menuForm) {
+    menuForm[key] = row[key] // todo
+  }
+  menuForm.id = row.id
+
+  // 合成el-cascader所绑定的id数组
+  let temArr: number[] = []
+  const parentId = Number(row.parentId)
+  function schIds(list: Menu[]) {
+    for (let i = 0; i < list.length; i++) {
+      if(list[i].id === parentId){
+        temArr = [parentId]
+        return
+      }else{
+        temArr.push(list[i].id!)
+        if (list[i].children && list[i].children!.length > 0) {
+          schIds(list[i].children!)
+        }else{
+          temArr = []
+        }
+      }
+    }
+  }
+  schIds(menuList.value)
+  parent.value = temArr
+}
+
+// 重置编辑菜单表单
+const resetMenuForm = () => {
+  menuFormRef.value?.resetFields()
+  parent.value = []
+  delete menuForm.id
+}
+
+const parent = ref<number[] | null>([])
+const menuForm = reactive<Menu>({
+  parentId: '',
+  title: '',
+  name: '',
+  path: '',
+  component: '',
+  orderNum: 0,
+  hidden: 0,
+  cache: 0,
+  status: 1,
+})
+
+const menuRules = reactive<FormRules>({
+  title: [{ required: true, message: '请输入', trigger: 'blur' }],
+  component: [{ required: true, message: '请输入', trigger: 'blur' }],
+  name: [{ required: true, message: '请输入', trigger: 'blur' }],
+  path: [{ required: true, message: '请输入', trigger: 'blur' }],
+})
+
+// 提交菜单表单
+const submitMenuForm = () => {
+  menuFormRef.value?.validate(valid => {
+    if(valid) {
+      if(menuForm.id) {
+        editMenu(menuForm)
+          .then(res => {
+            ElMessage.success(res.msg)
+            dialogEditVisible.value = false
+            getMenuListHandle()
+          })
+      }else{
+        addMenu(menuForm)
+          .then(res => {
+            ElMessage.success(res.msg)
+            dialogEditVisible.value = false
+            getMenuListHandle()
+          })
+      }
+    }
+  })
+}
+
+watch(() => parent, parent => {
+  // 选择时是数组
+  if(Array.isArray(parent.value)) {
+    if (parent.value.length > 0) {
+      menuForm.parentId = String(parent.value[parent.value.length - 1])
+    } else {
+      menuForm.parentId = ''
+    }
+  }
+  // 清空时是null
+  else if(parent.value === null) {
+    menuForm.parentId = ''
+  }
+}, {deep: true})
+
 </script>
 
 <template>
   <div class="wrapper">
     <div class="table-head">
-      <div class="sch">
-        <el-form ref="schFormRef" :inline="true" :model="schForm">
-          <el-form-item label="标题" prop="title">
-            <el-input v-model="schForm.title" placeholder="请输入" clearable @change="getListHandle" />
-          </el-form-item>
-          <el-form-item label="日期" prop="startTime">
-            <el-date-picker v-model="schForm.startTime" type="date" value-format="YYYY-MM-DD" placeholder="起" style="width: 130px;" @change="getListHandle"></el-date-picker>
-          </el-form-item>
-          <el-form-item label="" prop="endTime">
-            <el-date-picker v-model="schForm.endTime" type="date" value-format="YYYY-MM-DD" placeholder="至" style="width: 130px;" @change="getListHandle"></el-date-picker>
-          </el-form-item>
-          <el-form-item label="发布状态" prop="status">
-            <el-radio-group v-model="schForm.status" @change="getListHandle">
-              <el-radio-button label="">全部</el-radio-button>
-              <el-radio-button :label="0">未发布</el-radio-button>
-              <el-radio-button :label="1">发布</el-radio-button>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" plain @click="getListHandle">查询</el-button>
-            <el-button @click="resetForm">重置</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
       <div class="new-item">
-        <el-button type="primary" @click="addMenu"><i class="el-icon-plus"></i>新增</el-button>
+        <el-button type="primary" plain @click="getListHandle"><icon name="refresh" />刷新</el-button>
+        <el-button type="primary" @click="addMenuHandle"><icon name="add" />新增</el-button>
       </div>
     </div>
-    <el-table ref="tableRef" :data="newsList" v-loading="loading">
-      <el-table-column type="index" width="50"></el-table-column>
-      <el-table-column prop="createTime" label="时间" sortable min-width="200"></el-table-column>
-      <el-table-column prop="title" label="标题" min-width="300">
+    <el-table ref="tableRef" :data="menuList" v-loading="loading" row-key="id" default-expand-all>
+      <el-table-column prop="createTime" label="时间" align="center" width="200"></el-table-column>
+      <el-table-column prop="title" label="菜单名称" min-width="120">
         <template #default="scope">
           <span v-copy="scope.row.title">{{scope.row.title}}</span>
         </template>
       </el-table-column>
-      <!--      <el-table-column prop="imgUrl" label="图片" align="center" min-width="120">-->
-      <!--        <template #default="scope">-->
-      <!--          <el-image-->
-      <!--            :src="settingStore.getFileHost + scope.row.imgUrl"-->
-      <!--            :preview-src-list="[settingStore.getFileHost + scope.row.imgUrl]"-->
-      <!--            fit="contain"-->
-      <!--            :hide-on-click-modal="true"-->
-      <!--            style="height: 32px;"-->
-      <!--          >-->
-      <!--          </el-image>-->
-      <!--        </template>-->
-      <!--      </el-table-column>-->
-      <el-table-column prop="type" label="分类" min-width="120"></el-table-column>
-      <el-table-column prop="" label="地区" align="center" sortable :sort-by="['province', 'city', 'area']" min-width="200">
+      <el-table-column prop="component" label="文件路径" min-width="200">
+        <template #default="scope">{{scope.row.component}}</template>
+      </el-table-column>
+      <el-table-column prop="name" label="路由名称" min-width="120">
+        <template #default="scope">{{scope.row.name}}</template>
+      </el-table-column>
+      <el-table-column prop="path" label="路由地址" min-width="120">
+        <template #default="scope">{{scope.row.path}}</template>
+      </el-table-column>
+      <el-table-column prop="orderNum" label="排序" align="center" min-width="120">
+        <template #default="scope">{{scope.row.orderNum}}</template>
+      </el-table-column>
+      <el-table-column prop="hidden" label="是否隐藏" align="center" min-width="120">
         <template #default="scope">
-          <span v-if="scope.row.province">{{scope.row.province + ' ' + scope.row.city + ' ' + scope.row.area}}</span>
-          <span v-else>-</span>
+          <el-tag type="success" v-if="scope.row.hidden === 1">是</el-tag>
+          <el-tag type="info" v-else-if="scope.row.hidden === 0">否</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="cache" label="是否缓存" align="center" min-width="120">
+        <template #default="scope">
+          <el-switch
+            v-model="scope.row.cache"
+            :active-value="1"
+            :inactive-value="0"
+            @change="switchStatus(scope.row)"
+          >
+          </el-switch>
         </template>
       </el-table-column>
       <el-table-column prop="status" label="状态" align="center" min-width="120">
         <template #default="scope">
           <el-switch
             v-model="scope.row.status"
-            active-value="1"
-            inactive-value="0"
+            :active-value="1"
+            :inactive-value="0"
             @change="switchStatus(scope.row)"
           >
           </el-switch>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" min-width="200" fixed="right">
+      <el-table-column label="操作" align="center" width="150" fixed="right" class-name="manage-td">
         <template #default="scope">
-          <el-button type="primary" link icon="el-icon-edit" @click="editMenuHandle(scope.row)" v-permission="['news:edit']">修改</el-button>
-          <el-button type="warning" link icon="el-icon-delete" @click="delMenuHandle(scope.row)" v-permission="['news:del']">删除</el-button>
+          <el-button type="primary" link @click="editMenuHandle(scope.row)"><icon name="edit" />修改</el-button>
+          <el-button type="warning" link @click="delMenuHandle(scope.row)"><icon name="del" />删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <page v-model:currentPage="schForm.page" :total="total" @getList="getMenuListHandle"></page>
+    <el-dialog v-model="dialogEditVisible" title="编辑菜单" width="800px">
+      <el-form ref="menuFormRef" :model="menuForm" :rules="menuRules" label-width="auto">
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="上级菜单" prop="parent">
+              <el-cascader
+                v-model="parent"
+                :options="menuList"
+                :props="{ value: 'id', label: 'title', children: 'children', checkStrictly: true, expandTrigger: 'hover' }"
+                clearable
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="菜单名称" prop="title">
+              <el-input v-model="menuForm.title" placeholder="请输入"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="路由名称" prop="name">
+              <el-input v-model="menuForm.name" placeholder="请输入"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="路由地址" prop="path">
+              <el-input v-model="menuForm.path" placeholder="请输入"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="文件路径" prop="component">
+              <el-input v-model="menuForm.component" placeholder="请输入"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="排序" prop="orderNum">
+              <el-input v-model="menuForm.orderNum" placeholder="请输入"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="是否隐藏" prop="hidden">
+              <el-switch v-model="menuForm.hidden" :active-value="1" :inactive-value="0"></el-switch>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="是否缓存" prop="cache">
+              <el-switch v-model="menuForm.cache" :active-value="1" :inactive-value="0"></el-switch>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="状态" prop="status">
+              <el-switch v-model="menuForm.status" :active-value="1" :inactive-value="0"></el-switch>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogEditVisible = false">取消</el-button>
+        <el-button type="primary" @click="submitMenuForm">确定</el-button>
+      </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
