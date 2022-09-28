@@ -30,7 +30,7 @@ export const baseRoutes: RouteRecordRaw[] = [
         name: 'dashboard',
         path: 'dashboard',
         meta: {
-          title: '欢迎页'
+          title: 'dashboard'
         },
         component: () => import(/* webpackChunkName: 'dashboard' */ '@/views/dashboard/dashboard.vue'),
       }

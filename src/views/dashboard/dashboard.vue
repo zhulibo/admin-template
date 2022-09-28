@@ -2,6 +2,7 @@
 </script>
 
 <template>
+  <p>dashboard</p>
 </template>
 
 <style lang="pcss" scoped>

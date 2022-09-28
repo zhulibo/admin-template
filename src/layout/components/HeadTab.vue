@@ -28,7 +28,7 @@ watch(() => route.path, () => {
       :key="item.path"
       :to="{path: item.path, query: item.query}"
     >
-      <span>{{item.meta.title}}</span>
+      <span :class="{active: item.path === route.path}">{{item.meta.title}}</span>
     </router-link>
   </div>
 </template>
@@ -48,15 +48,21 @@ watch(() => route.path, () => {
 .tab-item{
   display: inline-block;
   & span{
+    box-sizing: border-box;
     display: inline-block;
     margin-left: 10px;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    min-width: 60px;
     height: 30px;
     font-size: 12px;
     line-height: 30px;
-    color: #fff;
-    background-color: var(--mainColor);
+    text-align: center;
+    background-color: #f1f1f1;
+    &.active{
+      color: #fff;
+      background-color: var(--mainColor);
+    }
   }
 }
 </style>

@@ -9,7 +9,8 @@ module.exports = {
     "@vue/eslint-config-typescript/recommended"
   ],
   "rules": {
-    "vue/multi-word-component-names": "off"
+    "vue/multi-word-component-names": "off",
+    "@typescript-eslint/ban-ts-comment": "off" // 阻止使用@ts-ignore时的警告
   },
   "overrides": [
     {

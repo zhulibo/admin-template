@@ -134,9 +134,8 @@ const handleImgPreview: UploadProps['onPreview'] = (file) => {
   & :deep(.hide .el-upload--picture-card) {
     display: none;
   }
-  /* todo */
   & :deep(.el-upload-list__item){
-    transition: none !important;
+    transition: none;
   }
   & :deep(.el-upload-list--picture-card .el-upload-list__item){
     vertical-align: bottom;

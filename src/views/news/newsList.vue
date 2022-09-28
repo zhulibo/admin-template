@@ -1,15 +1,27 @@
 <script setup lang="ts">
-import { reactive, ref} from "vue"
+import {reactive, ref, watch} from "vue"
 import { useRouter } from 'vue-router'
-import { getNewsList, editNews, delNews } from '@/api/news/news'
+import {getNewsList, editNews, delNews, getNewsCateList} from '@/api/news/news'
 import {ElMessage, ElMessageBox, ElTable} from 'element-plus'
 import {useSettingStore} from "@/stores/setting";
-import type {News, NewsListParams} from "@/api/news/type";
+import type {News, NewsListParams, NewsCate} from "@/api/news/type";
 
 const settingStore = useSettingStore()
 const router = useRouter()
 
+const cateList = ref<NewsCate[]>([])
+
+// 获取新闻分类列表
+const getNewsCateListHandle = () => {
+  getNewsCateList()
+    .then(res => {
+      cateList.value = res.data
+    })
+}
+getNewsCateListHandle()
+
 const schForm = reactive<NewsListParams>({
+  cateId: undefined,
   title: '',
   startTime: '',
   endTime: '',
@@ -18,9 +30,28 @@ const schForm = reactive<NewsListParams>({
   rows: 10,
 })
 
+// 新闻分类变更
+const cascaderChange = (cateArr: number[] | null) => {
+  // 选择时是数组
+  if(Array.isArray(cateArr)) {
+    if (cateArr.length > 0) {
+      schForm.cateId = cateArr[cateArr.length - 1]
+    } else {
+      schForm.cateId = undefined
+    }
+  }
+  // 清空时是null
+  else if(cateArr === null) {
+    schForm.cateId = undefined
+  }
+  getListHandle()
+}
+
+
 const loading = ref(true)
 const newsList = ref<News[]>([])
 const total = ref(0)
+const tableRef = ref<InstanceType<typeof ElTable>>()
 
 // 获取新闻列表
 const getNewsListHandle = () => {
@@ -35,10 +66,37 @@ const getNewsListHandle = () => {
       loading.value = false
     })
 }
-
 getNewsListHandle()
 
-const tableRef = ref<InstanceType<typeof ElTable>>()
+// 返显新闻分类
+const unEscapeCate = (cateId: number) => {
+  const temArr: string[] = []
+  let hasFind = false
+  function findItem(list: NewsCate[]) {
+    for (let i = 0; i < list.length; i++) {
+      if(hasFind) {
+        break
+      }
+      if(list[i].id === cateId){
+        temArr.push(list[i].name)
+        hasFind = true
+      }else{
+        if (list[i].children && list[i].children!.length > 0) {
+          // 添加list[i].name，开始查找children项
+          temArr.push(list[i].name)
+          findItem(list[i].children!)
+        }else{
+          // children里不存在要找的目标，删除list[i].name
+          if(i === list.length - 1){
+            temArr.pop()
+          }
+        }
+      }
+    }
+  }
+  findItem(cateList.value)
+  return temArr.join(' / ')
+}
 
 // 刷新
 const getListHandle = () => {
@@ -105,11 +163,19 @@ const delNewsHandle = (row: News) => {
           <el-form-item label="标题" prop="title">
             <el-input v-model="schForm.title" placeholder="请输入" clearable @change="getListHandle" />
           </el-form-item>
-          <el-form-item label="日期" prop="startTime">
-            <el-date-picker v-model="schForm.startTime" type="date" value-format="YYYY-MM-DD" placeholder="起" style="width: 130px;" @change="getListHandle"></el-date-picker>
+          <el-form-item label="分类" prop="">
+            <el-cascader
+              :options="cateList"
+              :props="{ value: 'id', label: 'name', children: 'children', checkStrictly: true, expandTrigger: 'hover' }"
+              @change="cascaderChange"
+              clearable
+            />
+          </el-form-item>
+          <el-form-item label="发布时间" prop="startTime">
+            <el-date-picker v-model="schForm.startTime" type="datetime" value-format="YYYY-MM-DD HH:mm:ss" placeholder="起" style="width: 150px;" @change="getListHandle"></el-date-picker>
           </el-form-item>
           <el-form-item label="" prop="endTime">
-            <el-date-picker v-model="schForm.endTime" type="date" value-format="YYYY-MM-DD" placeholder="至" style="width: 130px;" @change="getListHandle"></el-date-picker>
+            <el-date-picker v-model="schForm.endTime" type="datetime" value-format="YYYY-MM-DD HH:mm:ss" placeholder="至" style="width: 150px;" @change="getListHandle"></el-date-picker>
           </el-form-item>
           <el-form-item label="发布状态" prop="status">
             <el-radio-group v-model="schForm.status" @change="getListHandle">
@@ -130,13 +196,13 @@ const delNewsHandle = (row: News) => {
     </div>
     <el-table ref="tableRef" :data="newsList" v-loading="loading">
       <el-table-column type="index" width="50"></el-table-column>
-      <el-table-column prop="createTime" label="时间" align="center" width="160" sortable></el-table-column>
+      <el-table-column prop="createTime" label="发布时间" align="center" width="200" sortable></el-table-column>
       <el-table-column prop="title" label="标题" min-width="300">
         <template #default="scope">
           <span v-copy="scope.row.title">{{scope.row.title}}</span>
         </template>
       </el-table-column>
-<!--      <el-table-column prop="imgUrl" label="图片" align="center" min-width="120">-->
+<!--      <el-table-column prop="imgUrl" label="图片" align="center" min-width="140">-->
 <!--        <template #default="scope">-->
 <!--          <el-image-->
 <!--            :src="settingStore.getFileHost + scope.row.imgUrl"-->
@@ -148,14 +214,12 @@ const delNewsHandle = (row: News) => {
 <!--          </el-image>-->
 <!--        </template>-->
 <!--      </el-table-column>-->
-      <el-table-column prop="type" label="分类" min-width="120"></el-table-column>
-      <el-table-column prop="" label="地区" align="center" min-width="200" sortable :sort-by="['province', 'city', 'area']">
+      <el-table-column prop="cateId" label="分类" min-width="140" sortable>
         <template #default="scope">
-          <span v-if="scope.row.province">{{scope.row.province + ' ' + scope.row.city + ' ' + scope.row.area}}</span>
-          <span v-else>-</span>
+          <span>{{unEscapeCate(scope.row.cateId)}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="status" label="状态" align="center" min-width="120">
+      <el-table-column prop="status" label="状态" align="center" min-width="120" sortable>
         <template #default="scope">
           <el-switch
             v-model="scope.row.status"

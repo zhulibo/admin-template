@@ -65,7 +65,7 @@ const dialogEditVisible = ref(false)
 const menuFormRef = ref<FormInstance>()
 
 // 新增菜单
-const addMenuHandle = async(row: Menu) => {
+const addMenuHandle = async() => {
   dialogEditVisible.value = true
   await nextTick()
   resetMenuForm()
@@ -77,29 +77,38 @@ const editMenuHandle = async(row: Menu) => {
   resetMenuForm()
   await nextTick()
   for (const key in menuForm) {
-    menuForm[key] = row[key] // todo
+    // @ts-ignore
+    menuForm[key] = row[key]
   }
   menuForm.id = row.id
 
   // 合成el-cascader所绑定的id数组
-  let temArr: number[] = []
   const parentId = Number(row.parentId)
-  function schIds(list: Menu[]) {
+  const temArr: number[] = []
+  let hasFind = false
+  function findItem(list: Menu[]) {
     for (let i = 0; i < list.length; i++) {
+      if(hasFind) {
+        break
+      }
       if(list[i].id === parentId){
-        temArr = [parentId]
-        return
-      }else{
         temArr.push(list[i].id!)
+        hasFind = true
+      }else{
         if (list[i].children && list[i].children!.length > 0) {
-          schIds(list[i].children!)
+          // 添加list[i].id，开始查找children项
+          temArr.push(list[i].id!)
+          findItem(list[i].children!)
         }else{
-          temArr = []
+          // children里不存在要找的目标，删除list[i].id
+          if(i === list.length - 1){
+            temArr.pop()
+          }
         }
       }
     }
   }
-  schIds(menuList.value)
+  findItem(menuList.value)
   parent.value = temArr
 }
 
@@ -180,12 +189,12 @@ watch(() => parent, parent => {
     </div>
     <el-table ref="tableRef" :data="menuList" v-loading="loading" row-key="id" default-expand-all>
       <el-table-column prop="createTime" label="时间" align="center" width="200"></el-table-column>
-      <el-table-column prop="title" label="菜单名称" min-width="120">
+      <el-table-column prop="title" label="菜单名称" min-width="160">
         <template #default="scope">
           <span v-copy="scope.row.title">{{scope.row.title}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="component" label="文件路径" min-width="200">
+      <el-table-column prop="component" label="文件路径" min-width="180">
         <template #default="scope">{{scope.row.component}}</template>
       </el-table-column>
       <el-table-column prop="name" label="路由名称" min-width="120">

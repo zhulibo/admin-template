@@ -10,6 +10,4 @@ export interface Menu {
   orderNum: number
   status: number
   children?: Menu[]
-  // createTime?: string
-  // updateTime?: string
 }
