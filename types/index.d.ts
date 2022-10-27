@@ -1,4 +1,4 @@
-declare module 'js-fragment'
+// declare module 'js-fragment'
 
 // 把某些属性变为必选
 type CustomRequired<T, K extends keyof T> = {

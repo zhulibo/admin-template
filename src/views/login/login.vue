@@ -11,7 +11,7 @@ const userStore = useUserStore()
 
 const loginForm = reactive({
   account: 'zhulibo',
-  password: 'Cf022044..',
+  password: 'zhu022044',
 })
 const loginRule = reactive<FormRules>({
   account: [{ required: true, message: '请输入', trigger: 'blur' }],
