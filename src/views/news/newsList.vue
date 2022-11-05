@@ -172,10 +172,10 @@ const delNewsHandle = (row: News) => {
             />
           </el-form-item>
           <el-form-item label="发布时间" prop="startTime">
-            <el-date-picker v-model="schForm.startTime" type="datetime" value-format="YYYY-MM-DD HH:mm:ss" placeholder="起" style="width: 150px;" @change="getListHandle"></el-date-picker>
+            <el-date-picker v-model="schForm.startTime" type="datetime" value-format="YYYY-MM-DD HH:mm:ss" placeholder="起" style="width: 180px;" @change="getListHandle"></el-date-picker>
           </el-form-item>
           <el-form-item label="" prop="endTime">
-            <el-date-picker v-model="schForm.endTime" type="datetime" value-format="YYYY-MM-DD HH:mm:ss" placeholder="至" style="width: 150px;" @change="getListHandle"></el-date-picker>
+            <el-date-picker v-model="schForm.endTime" type="datetime" value-format="YYYY-MM-DD HH:mm:ss" placeholder="至" style="width: 180px;" @change="getListHandle"></el-date-picker>
           </el-form-item>
           <el-form-item label="发布状态" prop="status">
             <el-radio-group v-model="schForm.status" @change="getListHandle">
