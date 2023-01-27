@@ -5,7 +5,7 @@ export interface NewsListParams {
   endTime?: string,
   status?: number,
   page: number,
-  rows: number,
+  rows: number
 }
 
 export interface News {

@@ -18,7 +18,6 @@ class Http {
       this.interceptors?.responseInterceptors,
       this.interceptors?.responseInterceptorsCatch
     )
-
   }
 
   // 封装request
@@ -35,18 +34,18 @@ class Http {
     })
   }
 
-  get<T = any>(config: Config): Promise<ResponseData<T>> {
-    return this.request<T>({ ...config, method: 'get' })
-  }
-  post<T = any>(config: Config): Promise<ResponseData<T>> {
-    return this.request<T>({ ...config, method: 'post' })
-  }
-  put<T = any>(config: Config): Promise<ResponseData<T>> {
-    return this.request<T>({ ...config, method: 'put' })
-  }
-  delete<T = any>(config: Config): Promise<ResponseData<T>> {
-    return this.request<T>({ ...config, method: 'delete' })
-  }
+  // get<T = any>(config: Config): Promise<ResponseData<T>> {
+  //   return this.request<T>({ ...config, method: 'get' })
+  // }
+  // post<T = any>(config: Config): Promise<ResponseData<T>> {
+  //   return this.request<T>({ ...config, method: 'post' })
+  // }
+  // put<T = any>(config: Config): Promise<ResponseData<T>> {
+  //   return this.request<T>({ ...config, method: 'put' })
+  // }
+  // delete<T = any>(config: Config): Promise<ResponseData<T>> {
+  //   return this.request<T>({ ...config, method: 'delete' })
+  // }
 
 }
 

@@ -59,6 +59,9 @@ const delMenuHandle = (row: Menu) => {
           getMenuListHandle()
         })
     })
+    .catch(e => {
+      console.log(e)
+    })
 }
 
 const dialogEditVisible = ref(false)

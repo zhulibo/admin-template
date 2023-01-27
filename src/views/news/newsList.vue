@@ -152,6 +152,9 @@ const delNewsHandle = (row: News) => {
           getNewsListHandle()
         })
     })
+    .catch(e => {
+      console.log(e)
+    })
 }
 </script>
 

@@ -59,6 +59,9 @@ const delNewsCateHandle = (row: NewsCate) => {
           getNewsCateListHandle()
         })
     })
+    .catch(e => {
+      console.log(e)
+    })
 }
 
 const dialogEditVisible = ref(false)
@@ -74,8 +77,8 @@ const addNewsCateHandle = async() => {
 // 编辑新闻分类
 const editNewsCateHandle = async(row: NewsCate) => {
   dialogEditVisible.value = true
-  resetNewsCateForm()
   await nextTick()
+  resetNewsCateForm()
   for (const key in newsCateForm) {
     // @ts-ignore
     newsCateForm[key] = row[key]
@@ -104,7 +107,7 @@ const editNewsCateHandle = async(row: NewsCate) => {
   parent.value = temArr
 }
 
-// 重置编辑新闻分类表单
+// 重置新闻分类表单
 const resetNewsCateForm = () => {
   newsCateFormRef.value?.resetFields()
   parent.value = []
