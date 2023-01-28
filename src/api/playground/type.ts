@@ -1,4 +1,4 @@
-export interface TestParams {
+export interface ExampleParams {
   title?: string,
   startTime?: string,
   endTime?: string,
@@ -7,7 +7,7 @@ export interface TestParams {
   rows: number
 }
 
-export interface Test {
+export interface Example {
   id?: number,
   title: string,
   size: string,
