@@ -16,7 +16,7 @@ if (localUserInfo){
 </script>
 
 <template>
-  <router-view />
+  <RouterView />
 </template>
 
 <style lang="pcss">

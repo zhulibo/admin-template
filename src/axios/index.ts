@@ -36,6 +36,10 @@ const http = new Http({
           case 500:
             err.message = '服务器错误(500)'
             break
+          case 401:
+            router.push({path: '/login'})
+            err.message = '请重新登录(401)'
+            break
           case 403:
             router.push({path: '/login'})
             err.message = '请重新登录(403)'

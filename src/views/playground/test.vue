@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {ref} from "vue";
-import child from "@/views/playground/components/child.vue";
+import Child from "@/views/playground/components/Child.vue";
 
 const childRef = ref()
 const callChild = () => {
@@ -33,7 +33,7 @@ const doFetch = () => {
 <template>
   <div class="wrapper">
     <el-button type="primary" plain @click="callChild">callChild</el-button>
-    <child ref="childRef"></child>
+    <Child ref="childRef"></Child>
     <hr>
 
     <el-button type="primary" plain @click="doXhr">xhr</el-button>

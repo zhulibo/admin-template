@@ -16,7 +16,7 @@ export const baseRoutes: RouteRecordRaw[] = [
       title: '登录页',
       hidden: true,
     },
-    component: () => import(/* webpackChunkName: 'login' */ '@/views/login/login.vue'),
+    component: () => import('@/views/login/login.vue'),
   },
   {
     name: 'home',
@@ -32,7 +32,7 @@ export const baseRoutes: RouteRecordRaw[] = [
         meta: {
           title: 'dashboard'
         },
-        component: () => import(/* webpackChunkName: 'dashboard' */ '@/views/dashboard/dashboard.vue'),
+        component: () => import('@/views/dashboard/dashboard.vue'),
       }
     ]
   },
