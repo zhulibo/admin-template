@@ -4,10 +4,10 @@ const secretKey = '1234567890123456'
 const iv = '1234567890123456'
 
 /**
- * ASE加密
+ * AES加密
  * @param {string} word - 需要加密的参数
- * @param {string} key - 加密密钥（长度必须是 16 的整数倍）
- * @param {string} offset - 偏移量
+ * @param {string} key - 加密密钥（16位16进制数）
+ * @param {string} offset - 偏移量（16位16进制数）
  */
 export function encrypt(word: any, key = secretKey, offset = iv) {
   // 未加密的参数 从UTF-8编码解析出原始字符串
@@ -27,10 +27,10 @@ export function encrypt(word: any, key = secretKey, offset = iv) {
 }
 
 /**
- * ASE解密
+ * AES解密
  * @param {string} encryptedWord - 需要解密的参数
- * @param {string} key - 加密密钥（长度必须是 16 的整数倍）
- * @param {string} offset - 偏移量
+ * @param {string} key - 加密密钥（16位16进制数）
+ * @param {string} offset - 偏移量（16位16进制数）
  */
 export function decrypt(encryptedWord: any, key = secretKey, offset = iv) {
   const keyUTF8 = enc.Utf8.parse(key)

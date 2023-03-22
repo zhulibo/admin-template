@@ -115,13 +115,13 @@ const resetExampleForm = () => {
 }
 
 const exampleForm = reactive<Example>({
-  title: '',
+  userName: '',
   size: '',
   status: 1
 })
 
 const exampleRules = reactive<FormRules>({
-  title: [{ required: true, message: '请输入', trigger: 'blur' }],
+  userName: [{ required: true, message: '请输入', trigger: 'blur' }],
   size: [{ required: true, message: '请输入', trigger: 'blur' }],
   status: [{ required: true, message: '请输入', trigger: 'blur' }],
 })
@@ -155,8 +155,8 @@ const submitExampleForm = () => {
     <div class="table-head">
       <div class="sch">
         <el-form ref="schFormRef" :inline="true" :model="schForm">
-          <el-form-item label="标题" prop="title">
-            <el-input v-model="schForm.title" placeholder="请输入" style="width: 200px;" clearable @change="getListHandle" />
+          <el-form-item label="用户名" prop="userName">
+            <el-input v-model="schForm.userName" placeholder="请输入" style="width: 200px;" clearable @change="getListHandle" />
           </el-form-item>
           <el-form-item label="创建时间" prop="startTime">
             <el-date-picker v-model="schForm.startTime" type="datetime" value-format="YYYY-MM-DD HH:mm:ss" placeholder="起" style="width: 200px;" @change="getListHandle"></el-date-picker>
@@ -184,9 +184,9 @@ const submitExampleForm = () => {
     <el-table ref="tableRef" :data="exampleList" v-loading="loading">
       <el-table-column type="index" width="50"></el-table-column>
       <el-table-column prop="createTime" label="创建时间" align="center" width="200" sortable></el-table-column>
-      <el-table-column prop="title" label="标题" min-width="300">
+      <el-table-column prop="userName" label="用户名" min-width="300">
         <template #default="scope">
-          <span v-copy="scope.row.title">{{scope.row.title}}</span>
+          <span v-copy="scope.row.userName">{{scope.row.userName}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="size" label="尺寸" width="200" sortable></el-table-column>
@@ -213,8 +213,8 @@ const submitExampleForm = () => {
       <el-form ref="exampleFormRef" :model="exampleForm" :rules="exampleRules" label-width="auto">
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="名称" prop="title">
-              <el-input v-model="exampleForm.title" placeholder="请输入"></el-input>
+            <el-form-item label="用户名" prop="userName">
+              <el-input v-model="exampleForm.userName" placeholder="请输入"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -230,10 +230,10 @@ const submitExampleForm = () => {
         </el-row>
       </el-form>
       <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogEditVisible = false">取消</el-button>
-        <el-button type="primary" @click="submitExampleForm">确定</el-button>
-      </span>
+        <span class="dialog-footer">
+          <el-button @click="dialogEditVisible = false">取消</el-button>
+          <el-button type="primary" @click="submitExampleForm">确定</el-button>
+        </span>
       </template>
     </el-dialog>
   </div>

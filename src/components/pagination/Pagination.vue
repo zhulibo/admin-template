@@ -4,9 +4,11 @@ import { computed } from "vue";
 const prop = defineProps({
   currentPage: {
     type: Number,
+    required: true
   },
   total: {
     type: Number,
+    required: true
   }
 })
 const emit = defineEmits([

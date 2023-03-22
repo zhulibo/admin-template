@@ -8,7 +8,6 @@ const callChild = () => {
   childRef.value.fn()
 }
 
-
 const doXhr = () => {
   const xhr = new XMLHttpRequest()
   xhr.onreadystatechange = function() {
@@ -28,6 +27,7 @@ const doFetch = () => {
     console.log(res);
   })
 }
+
 </script>
 
 <template>

@@ -29,8 +29,8 @@ const submitLoginForm = () => {
       })
         .then(res => {
           userStore.updateUserInfo(res.data)
-          router.push({ path: '/home/dashboard' })
           localStorage.setItem('userInfo', JSON.stringify(res.data))
+          router.push({ path: '/home/dashboard' })
         })
     }
   })
@@ -44,8 +44,8 @@ const submitLoginForm = () => {
         <el-form-item prop="account">
           <el-input v-model="loginForm.account" placeholder="账号" @keyup.enter="submitLoginForm"></el-input>
         </el-form-item>
-        <el-form-item prop="password" placeholder="密码">
-          <el-input type="password" v-model="loginForm.password" @keyup.enter="submitLoginForm"></el-input>
+        <el-form-item prop="password">
+          <el-input type="password" placeholder="密码" v-model="loginForm.password" @keyup.enter="submitLoginForm"></el-input>
         </el-form-item>
         <el-button type="primary" @click="submitLoginForm">登录</el-button>
       </el-form>
