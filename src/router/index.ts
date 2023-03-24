@@ -37,8 +37,8 @@ router.beforeEach((to, from, next) => {
       next()
     } else { // 路由合并未开始
       (async () => {
-        const { data } = await getRouter() // 获取路由信息(同步)
-        await permissionStore.updateRouter(data) // 并合进pina和vue-router(同步)
+        const { data } = await getRouter() // 获取路由信息
+        await permissionStore.updateRouter(data) // 并合进pina和vue-router
         next({ ...to, replace: true }) // 合并成功后重新进入beforeEach
       })()
     }
