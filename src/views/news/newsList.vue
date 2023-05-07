@@ -47,7 +47,6 @@ const cascaderChange = (cateArr: number[] | null) => {
   getListHandle()
 }
 
-
 const loading = ref(true)
 const newsList = ref<News[]>([])
 const total = ref(0)

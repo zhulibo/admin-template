@@ -4,7 +4,7 @@ import * as echarts from 'echarts/core';
 import { debounce } from 'js-fragment'
 
 import {TitleComponent, TooltipComponent, GridComponent} from 'echarts/components';
-import type { TitleComponentOption, TooltipComponentOption, GridComponentOption} from 'echarts/components';
+import type {TitleComponentOption, TooltipComponentOption, GridComponentOption} from 'echarts/components';
 import {LineChart} from 'echarts/charts';
 import type {LineSeriesOption} from 'echarts/charts';
 import {CanvasRenderer} from 'echarts/renderers';

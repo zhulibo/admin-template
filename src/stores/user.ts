@@ -13,6 +13,11 @@ export const useUserStore = defineStore('user', {
     // 更新用户信息
     updateUserInfo(userInfo: UserInfo) {
       this.userInfo = userInfo
+    },
+    // 重置用户信息
+    resetUserInfo() {
+      this.userInfo = null
+      localStorage.removeItem('userInfo')
     }
   }
 })

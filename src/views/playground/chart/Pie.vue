@@ -4,7 +4,7 @@ import * as echarts from 'echarts/core';
 import { debounce } from 'js-fragment'
 
 import {TitleComponent, TooltipComponent, LegendComponent} from 'echarts/components';
-import type { TitleComponentOption, TooltipComponentOption, LegendComponentOption} from 'echarts/components';
+import type {TitleComponentOption, TooltipComponentOption, LegendComponentOption} from 'echarts/components';
 import {PieChart} from 'echarts/charts';
 import type {PieSeriesOption} from 'echarts/charts';
 import {LabelLayout} from 'echarts/features';

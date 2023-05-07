@@ -9,7 +9,7 @@ import type {FormInstance, FormRules} from "element-plus";
 const router = useRouter()
 
 const schForm = reactive<ExampleParams>({
-  title: '',
+  userName: '',
   startTime: '',
   endTime: '',
   status: undefined,
@@ -69,7 +69,7 @@ const switchStatus = (row: Example) => {
 
 // 删除示例
 const delExampleHandle = (row: Example) => {
-  ElMessageBox.confirm('确定删除 ' + row.title, '提示', {
+  ElMessageBox.confirm('确定删除 ' + row.userName, '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning'

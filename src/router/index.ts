@@ -3,6 +3,7 @@ import {baseRoutes} from './base'
 import {useUserStore} from '@/stores/user'
 import {usePermissionStore} from '@/stores/permission'
 import { getRouter } from '@/api/user/user'
+import {to as hander} from "js-fragment";
 
 let userStore: any
 let permissionStore: any
@@ -37,8 +38,9 @@ router.beforeEach((to, from, next) => {
       next()
     } else { // 路由合并未开始
       (async () => {
-        const { data } = await getRouter() // 获取路由信息
-        await permissionStore.updateRouter(data) // 并合进pina和vue-router
+        const [ err, data ] = await hander(getRouter()) // 获取路由信息
+        if(err) return false
+        await permissionStore.updateRouter(data.data) // 并合进pina和vue-router
         next({ ...to, replace: true }) // 合并成功后重新进入beforeEach
       })()
     }

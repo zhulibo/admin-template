@@ -1,5 +1,5 @@
 export interface ExampleParams {
-  title?: string,
+  userName?: string,
   startTime?: string,
   endTime?: string,
   status?: string,
@@ -9,7 +9,7 @@ export interface ExampleParams {
 
 export interface Example {
   id?: number,
-  title: string,
+  userName: string,
   size: string,
   status: number
 }
