@@ -13,7 +13,6 @@ const router = useRouter()
 const route = useRoute()
 
 const id = route.query.id as unknown as number
-const title = route.meta.title
 
 const cateList = ref<NewsCate[]>([])
 
@@ -133,7 +132,7 @@ const submitNewsForm = () => {
 <template>
   <div class="wrapper">
     <div class="page-head">
-      <el-page-header title="返回" :content="title" @back="goBack" />
+      <el-page-header title="返回" :content="route.meta.title" @back="goBack" />
       <div class="r"></div>
     </div>
     <div class="news-edit">
