@@ -1,18 +1,11 @@
 <script setup lang="ts">
-import {onMounted, reactive} from "vue";
-import * as echarts from 'echarts/core';
-import { debounce } from 'js-fragment'
+import {onMounted} from "vue";
+import {useEcharts} from "@/hooks/useEcharts";
+import type {EChartsOption} from "echarts";
 
-import {TitleComponent, TooltipComponent, GridComponent} from 'echarts/components';
-import type {TitleComponentOption, TooltipComponentOption, GridComponentOption} from 'echarts/components';
-import {BarChart} from 'echarts/charts';
-import type {BarSeriesOption} from 'echarts/charts';
-import {CanvasRenderer} from 'echarts/renderers';
+const {initChart, setOption} = useEcharts()
 
-echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer])
-type EChartsOption = echarts.ComposeOption<TitleComponentOption | TooltipComponentOption | GridComponentOption | BarSeriesOption>
-
-const chartBarOption = reactive<EChartsOption>({
+const chartBarOption: EChartsOption = {
   title: {
     text: '柱状图',
     left: 'center'
@@ -46,31 +39,16 @@ const chartBarOption = reactive<EChartsOption>({
       }
     }
   ]
-})
-let chartBar: any = null
-let debounceLine: any = null
-
-onMounted(() => {
-  debounceLine = debounce(() => {
-    if(chartBar){
-      chartBar.resize()
-    }
-  }, 200)
-  setTimeout(() => {
-    (chartBarOption as any).xAxis.data = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    (chartBarOption as any).series[0].data = [120, 200, 150, 80, 70, 110, 130]
-    initChartLine()
-  }, 200)
-})
-
-// 初始化图表
-const initChartLine = () => {
-  if (!chartBar) {
-    chartBar = echarts.init(document.getElementById('chart-bar')!)
-    window.addEventListener('resize', debounceLine)
-  }
-  chartBar.setOption(chartBarOption)
 }
+onMounted(() => {
+  setTimeout(() => {
+    chartBarOption.xAxis.data = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    chartBarOption.series![0].data = [120, 200, 150, 80, 70, 110, 130]
+    initChart('chart-bar')
+    setOption(chartBarOption)
+  }, 200)
+})
+
 </script>
 
 <template>

@@ -1,19 +1,11 @@
 <script setup lang="ts">
-import {onMounted, reactive} from "vue";
-import * as echarts from 'echarts/core';
-import { debounce } from 'js-fragment'
+import {onMounted} from "vue";
+import {useEcharts} from "@/hooks/useEcharts";
+import type {EChartsOption} from "echarts";
 
-import {TitleComponent, TooltipComponent, LegendComponent} from 'echarts/components';
-import type {TitleComponentOption, TooltipComponentOption, LegendComponentOption} from 'echarts/components';
-import {PieChart} from 'echarts/charts';
-import type {PieSeriesOption} from 'echarts/charts';
-import {LabelLayout} from 'echarts/features';
-import {CanvasRenderer} from 'echarts/renderers';
+const {initChart, setOption} = useEcharts()
 
-echarts.use([TitleComponent, TooltipComponent, LegendComponent, PieChart, CanvasRenderer, LabelLayout])
-type EChartsOption = echarts.ComposeOption<TitleComponentOption | TooltipComponentOption | LegendComponentOption | PieSeriesOption>
-
-const chartPieOption = reactive<EChartsOption>({
+const chartPieOption: EChartsOption = {
   title: {
     text: '饼图',
     left: 'center'
@@ -44,16 +36,8 @@ const chartPieOption = reactive<EChartsOption>({
       }
     }
   ]
-})
-let chartPie: any = null
-let debounceLine: any = null
-
+}
 onMounted(() => {
-  debounceLine = debounce(() => {
-    if(chartPie){
-      chartPie.resize()
-    }
-  }, 200)
   setTimeout(() => {
     const data = [
       {
@@ -70,23 +54,16 @@ onMounted(() => {
       },
     ]
     for (let i = 0; i < data.length; i++) {
-      (chartPieOption as any).series[0].data.push({
+      chartPieOption.series![0].data.push({
         name: data[i].name,
         value: data[i].value,
       })
     }
-    initChartLine()
+    initChart('chart-pie')
+    setOption(chartPieOption)
   }, 200)
 })
 
-// 初始化图表
-const initChartLine = () => {
-  if (!chartPie) {
-    chartPie = echarts.init(document.getElementById('chart-pie')!)
-    window.addEventListener('resize', debounceLine)
-  }
-  chartPie.setOption(chartPieOption)
-}
 </script>
 
 <template>

@@ -1,18 +1,11 @@
 <script setup lang="ts">
-import {onMounted, reactive} from "vue";
-import * as echarts from 'echarts/core';
-import { debounce } from 'js-fragment'
+import {onMounted} from "vue";
+import {useEcharts} from "@/hooks/useEcharts";
+import type {EChartsOption} from "echarts";
 
-import {TitleComponent, TooltipComponent, GridComponent} from 'echarts/components';
-import type {TitleComponentOption, TooltipComponentOption, GridComponentOption} from 'echarts/components';
-import {LineChart} from 'echarts/charts';
-import type {LineSeriesOption} from 'echarts/charts';
-import {CanvasRenderer} from 'echarts/renderers';
+const {initChart, setOption} = useEcharts()
 
-echarts.use([TitleComponent, TooltipComponent, GridComponent, LineChart, CanvasRenderer])
-type EChartsOption = echarts.ComposeOption<TitleComponentOption | TooltipComponentOption | GridComponentOption | LineSeriesOption>
-
-const chartLineOption = reactive<EChartsOption>({
+const chartLineOption: EChartsOption = {
   title: {
     text: '折线图',
     left: 'center'
@@ -45,31 +38,16 @@ const chartLineOption = reactive<EChartsOption>({
       }
     }
   ]
-})
-let chartLine: any = null
-let debounceLine: any = null
-
-onMounted(() => {
-  debounceLine = debounce(() => {
-    if(chartLine){
-      chartLine.resize()
-    }
-  }, 200)
-  setTimeout(() => {
-    (chartLineOption as any).xAxis.data = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    (chartLineOption as any).series[0].data = [120, 200, 150, 80, 70, 110, 130]
-    initChartLine()
-  }, 200)
-})
-
-// 初始化图表
-const initChartLine = () => {
-  if (!chartLine) {
-    chartLine = echarts.init(document.getElementById('chart-line')!)
-    window.addEventListener('resize', debounceLine)
-  }
-  chartLine.setOption(chartLineOption)
 }
+onMounted(() => {
+  setTimeout(() => {
+    chartLineOption.xAxis.data = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    chartLineOption.series![0].data = [120, 200, 150, 80, 70, 110, 130]
+    initChart('chart-line')
+    setOption(chartLineOption)
+  }, 200)
+})
+
 </script>
 
 <template>
