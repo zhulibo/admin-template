@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 
-const prop = defineProps({
+const props = defineProps({
   currentPage: {
     type: Number,
     required: true
@@ -18,7 +18,7 @@ const emit = defineEmits([
 
 const page = computed({
   get() {
-    return prop.currentPage
+    return props.currentPage
   },
   set(val) {
     emit('update:currentPage', val)
