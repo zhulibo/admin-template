@@ -22,6 +22,7 @@ const chartLineOption: EChartsOption = {
     bottom: 20,
     containLabel: true
   },
+  // color: ['#ccc'],
   xAxis: {
     type: 'category',
     data: []
@@ -41,8 +42,8 @@ const chartLineOption: EChartsOption = {
 }
 onMounted(() => {
   setTimeout(() => {
-    chartLineOption.xAxis.data = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    chartLineOption.series![0].data = [120, 200, 150, 80, 70, 110, 130]
+    (chartLineOption as any).xAxis.data = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    (chartLineOption as any).series[0].data = [120, 200, 150, 80, 70, 110, 130]
     initChart('chart-line')
     setOption(chartLineOption)
   }, 200)

@@ -19,6 +19,7 @@ const chartPieOption: EChartsOption = {
     left: 'left',
     top: 'middle'
   },
+  // color: ['#ccc', '#ddd', '#eee'],
   series: [
     {
       type: 'pie',
@@ -39,7 +40,7 @@ const chartPieOption: EChartsOption = {
 }
 onMounted(() => {
   setTimeout(() => {
-    const data = [
+    (chartPieOption as any).series[0].data = [
       {
         name: 'item1',
         value: 10
@@ -53,12 +54,6 @@ onMounted(() => {
         value: 35
       },
     ]
-    for (let i = 0; i < data.length; i++) {
-      chartPieOption.series![0].data.push({
-        name: data[i].name,
-        value: data[i].value,
-      })
-    }
     initChart('chart-pie')
     setOption(chartPieOption)
   }, 200)

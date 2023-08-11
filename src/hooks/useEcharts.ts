@@ -1,4 +1,4 @@
-import {onMounted} from "vue";
+import {onMounted, onUnmounted} from "vue";
 import * as echarts from "echarts";
 type EChartsOption = echarts.EChartsOption;
 import {debounce} from "js-fragment";
@@ -7,14 +7,6 @@ export function useEcharts() {
 
   let chart: any = null
   let chartDebounce: any = null
-
-  onMounted(() => {
-    chartDebounce = debounce(() => {
-      if(chart) {
-        chart.resize()
-      }
-    }, 200)
-  })
 
   // 初始化
   function initChart(id: string) {
@@ -35,6 +27,20 @@ export function useEcharts() {
       return chart
     }
   }
+
+  // resize
+  onMounted(() => {
+    chartDebounce = debounce(() => {
+      if(chart) {
+        chart.resize()
+      }
+    }, 200)
+  })
+
+  // 销毁
+  onUnmounted(() => {
+    window.removeEventListener('resize', chartDebounce)
+  })
 
   return {
     initChart,

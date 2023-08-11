@@ -6,12 +6,12 @@ import { router } from '@/router'
 
 // element
 import ElementPlus from 'element-plus'
-import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
 import directive from '@/directive' // 自定义指令
 
 import Pagination from '@/components/pagination/Pagination.vue' // 分页组件
-import Icon from '@/components/svgIcon/SvgIcon.vue' // svg图标组件
+import Icon from '@/components/svgIcon/SvgIcon.vue'
 
 // 发布版本清除localStorage
 if (!import.meta.env.DEV) {
