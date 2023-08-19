@@ -101,11 +101,7 @@ const editExampleHandle = async(row: Example) => {
   dialogEditVisible.value = true
   await nextTick()
   resetExampleForm()
-  for (const key in exampleForm) {
-    // @ts-ignore
-    exampleForm[key] = row[key]
-  }
-  exampleForm.id = row.id
+  Object.assign(exampleForm, row)
 }
 
 // 重置示例表单

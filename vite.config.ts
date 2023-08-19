@@ -4,6 +4,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 import svgLoader from 'vite-svg-loader'
+import viteCompression from 'vite-plugin-compression';
 import { visualizer } from "rollup-plugin-visualizer"
 
 const __APP_INFO__ = {
@@ -31,9 +32,12 @@ export default defineConfig({
   plugins: [
     vue(),
     svgLoader(),
-    visualizer({
-      filename: 'dist/stats.html'
-    })
+    viteCompression({
+      threshold: 10240, // 大于10k才压缩
+    }),
+    // visualizer({
+    //   filename: 'dist/stats.html'
+    // })
   ],
   build: {
     chunkSizeWarningLimit: 1000,

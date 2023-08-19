@@ -79,11 +79,7 @@ const editNewsCateHandle = async(row: NewsCate) => {
   dialogEditVisible.value = true
   await nextTick()
   resetNewsCateForm()
-  for (const key in newsCateForm) {
-    // @ts-ignore
-    newsCateForm[key] = row[key]
-  }
-  newsCateForm.id = row.id
+  Object.assign(newsCateForm, row)
 
   // 合成el-cascader所绑定的id数组
   let temArr: number[] = []

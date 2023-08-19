@@ -37,8 +37,7 @@ const getNewsDetailHandle = () => {
       // 返显（除cateId）
       for (const key in newsForm) {
         if(key !== 'cateId') {
-          // @ts-ignore
-          newsForm[key] = res.data[key]
+          (newsForm as any)[key] = (res.data as any)[key]
         }
       }
       // 合成el-cascader所绑定的id数组

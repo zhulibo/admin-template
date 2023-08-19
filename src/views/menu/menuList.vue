@@ -79,11 +79,7 @@ const editMenuHandle = async(row: Menu) => {
   dialogEditVisible.value = true
   resetMenuForm()
   await nextTick()
-  for (const key in menuForm) {
-    // @ts-ignore
-    menuForm[key] = row[key]
-  }
-  menuForm.id = row.id
+  Object.assign(menuForm, row)
 
   // 合成el-cascader所绑定的id数组
   const parentId = Number(row.parentId)

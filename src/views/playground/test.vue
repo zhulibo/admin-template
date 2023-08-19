@@ -27,7 +27,6 @@ const doFetch = () => {
     console.log(res);
   })
 }
-
 </script>
 
 <template>
@@ -39,6 +38,7 @@ const doFetch = () => {
     <el-button type="primary" plain @click="doXhr">xhr</el-button>
     <el-button type="primary" plain @click="doFetch">fetch</el-button>
     <hr>
+
   </div>
 </template>
 
