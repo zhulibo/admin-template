@@ -3,12 +3,16 @@
   padding: 0;
   list-style: none;
 }
+:root {
+  --font-size: 16px;
+  --line-height: 1.4;
+}
 html,body {
   height: 100%;
 }
 body {
-  font-size: 14px;
-  line-height: 1.4;
+  font-size: var(--font-size);
+  line-height: var(--line-height);
   font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
   color: #222;
 }
@@ -21,16 +25,20 @@ h1, h2, h3, h4, h5, h6 {
   color: inherit;
   font: inherit;
 }
-input, select, textarea {
-  color: inherit;
+input, button, select, textarea {
   font: inherit;
-  /* chrome下，获得焦点时有虚线框 */
-  outline: none;
+  line-height: inherit;
+  color: inherit;
+  outline: none; /* 去掉chrome获得焦点时的虚线框 */
   border: 1px solid #ccc;
+}
+select, button{
+  box-sizing: content-box;
+  height: calc(var(--font-size) * var(--line-height));
+}
+button{
+  vertical-align: baseline;
 }
 img {
   vertical-align: bottom;
-}
-:root{
-  --mainColor: #409eff;
 }

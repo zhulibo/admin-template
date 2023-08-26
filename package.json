@@ -20,7 +20,7 @@
     "dayjs": "^1.11.7",
     "echarts": "^5.4.2",
     "element-plus": "^2.3.9",
-    "js-fragment": "^1.2.1",
+    "js-fragment": "^1.2.2",
     "path-browserify": "^1.0.1",
     "pinia": "^2.1.4",
     "vite-svg-loader": "^4.0.0",

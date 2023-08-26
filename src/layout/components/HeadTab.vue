@@ -61,7 +61,7 @@ watch(() => route.path, () => {
     background-color: #f1f1f1;
     &.active{
       color: #fff;
-      background-color: var(--mainColor);
+      background-color: var(--main-color);
     }
   }
 }
