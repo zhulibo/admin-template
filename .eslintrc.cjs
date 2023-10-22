@@ -12,16 +12,6 @@ module.exports = {
     'vue/multi-word-component-names': 'off',
     '@typescript-eslint/ban-ts-comment': 'off' // 阻止使用@ts-ignore时的警告
   },
-  overrides: [
-    {
-      files: [
-        'cypress/e2e/**/*.{cy,spec}.{js,ts,jsx,tsx}'
-      ],
-      'extends': [
-        'plugin:cypress/recommended'
-      ]
-    }
-  ],
   parserOptions: {
     ecmaVersion: 'latest'
   }

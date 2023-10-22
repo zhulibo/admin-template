@@ -20,7 +20,6 @@ if (localUserInfo){
 </template>
 
 <style lang="pcss">
-/* 定义css级联层 */
 @layer base;
 @layer common;
 @layer element;
