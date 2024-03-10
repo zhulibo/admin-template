@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import Line from './chart/Line.vue'
 import Bar from './chart/Bar.vue'
 import Pie from './chart/Pie.vue'

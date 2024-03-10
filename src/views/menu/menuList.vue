@@ -2,11 +2,9 @@
 import {nextTick, reactive, ref, watch} from "vue"
 import { getMenuList, addMenu, editMenu, delMenu } from '@/api/menu/menu'
 import {ElMessage, ElMessageBox, ElTable} from 'element-plus'
-import type {FormInstance, FormRules} from "element-plus";
-import type {Menu} from "@/api/menu/type";
 
 const loading = ref(true)
-const menuList = ref<Menu[]>([])
+const menuList = ref([])
 
 // 获取菜单列表
 const getMenuListHandle = () => {
@@ -31,7 +29,7 @@ const getListHandle = () => {
 }
 
 // 切换状态
-const switchStatus = (row: Menu) => {
+const switchStatus = (row) => {
   loading.value = true
   const data = {
     id: row.id,
@@ -46,7 +44,7 @@ const switchStatus = (row: Menu) => {
 }
 
 // 删除菜单
-const delMenuHandle = (row: Menu) => {
+const delMenuHandle = (row) => {
   ElMessageBox.confirm('确定删除 ' + row.title, '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
@@ -65,7 +63,7 @@ const delMenuHandle = (row: Menu) => {
 }
 
 const dialogEditVisible = ref(false)
-const menuFormRef = ref<FormInstance>()
+const menuFormRef = ref()
 
 // 新增菜单
 const addMenuHandle = async() => {
@@ -75,7 +73,7 @@ const addMenuHandle = async() => {
 }
 
 // 编辑菜单
-const editMenuHandle = async(row: Menu) => {
+const editMenuHandle = async(row) => {
   dialogEditVisible.value = true
   resetMenuForm()
   await nextTick()
@@ -85,7 +83,7 @@ const editMenuHandle = async(row: Menu) => {
   const parentId = Number(row.parentId)
   const temArr: number[] = []
   let hasFind = false
-  function findItem(list: Menu[]) {
+  function findItem(list) {
     for (let i = 0; i < list.length; i++) {
       if(hasFind) {
         break
@@ -119,7 +117,7 @@ const resetMenuForm = () => {
 }
 
 const parent = ref<number[] | null>([])
-const menuForm = reactive<Menu>({
+const menuForm = reactive({
   parentId: '',
   title: '',
   name: '',
@@ -131,7 +129,7 @@ const menuForm = reactive<Menu>({
   status: 1,
 })
 
-const menuRules = reactive<FormRules>({
+const menuRules = reactive({
   title: [{ required: true, message: '请输入', trigger: 'blur' }],
   component: [{ required: true, message: '请输入', trigger: 'blur' }],
   name: [{ required: true, message: '请输入', trigger: 'blur' }],

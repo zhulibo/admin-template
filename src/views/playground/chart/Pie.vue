@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import {onMounted} from "vue";
 import {useEcharts} from "@/hooks/useEcharts";
-import type {EChartsOption} from "echarts";
 
 const {initChart, setOption} = useEcharts()
 
-const chartPieOption: EChartsOption = {
+const chartPieOption = {
   title: {
     text: '饼图',
     left: 'center'
@@ -40,7 +39,7 @@ const chartPieOption: EChartsOption = {
 }
 onMounted(() => {
   setTimeout(() => {
-    (chartPieOption as any).series[0].data = [
+    chartPieOption.series[0].data = [
       {
         name: 'item1',
         value: 10

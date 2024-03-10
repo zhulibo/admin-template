@@ -1,11 +1,10 @@
-<script setup lang="ts">
+<script setup>
 import {onMounted, reactive} from "vue";
 import {useEcharts} from "@/hooks/useEcharts";
-import type {EChartsOption} from "echarts";
 
 const {initChart, setOption} = useEcharts()
 
-const chartBarOption: EChartsOption = reactive({
+const chartBarOption = reactive({
   title: {
     text: '柱状图',
     left: 'center'
@@ -43,8 +42,8 @@ const chartBarOption: EChartsOption = reactive({
 })
 onMounted(() => {
   setTimeout(() => {
-    (chartBarOption as any).xAxis.data = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    (chartBarOption as any).series[0].data = [120, 200, 150, 80, 70, 110, 130]
+    chartBarOption.xAxis.data = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    chartBarOption.series[0].data = [120, 200, 150, 80, 70, 110, 130]
     initChart('chart-bar')
     setOption(chartBarOption)
   }, 200)

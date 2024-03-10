@@ -1,14 +1,12 @@
-<script setup lang="ts">
+<script setup>
 import {nextTick, reactive, ref} from "vue";
 import {getExampleList, getExampleDetail, addExample, editExample, delExample} from "@/api/playground/example";
-import type {ExampleParams, Example} from "@/api/playground/type";
 import {ElMessage, ElMessageBox, ElTable} from "element-plus";
 import {useRouter} from "vue-router";
-import type {FormInstance, FormRules} from "element-plus";
 
 const router = useRouter()
 
-const schForm = reactive<ExampleParams>({
+const schForm = reactive({
   userName: '',
   startTime: '',
   endTime: '',
@@ -18,9 +16,9 @@ const schForm = reactive<ExampleParams>({
 })
 
 const loading = ref(true)
-const exampleList = ref<Example[]>([])
+const exampleList = ref([])
 const total = ref(0)
-const tableRef = ref<InstanceType<typeof ElTable>>()
+const tableRef = ref()
 
 // 获取示例列表
 const getExampleListHandle = () => {
@@ -53,7 +51,7 @@ const getListHandle = () => {
 }
 
 // 切换示例状态
-const switchStatus = (row: Example) => {
+const switchStatus = (row) => {
   loading.value = true
   const data = {
     id: row.id,
@@ -68,14 +66,14 @@ const switchStatus = (row: Example) => {
 }
 
 // 删除示例
-const delExampleHandle = (row: Example) => {
+const delExampleHandle = (row) => {
   ElMessageBox.confirm('确定删除 ' + row.userName, '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning'
   })
     .then(() => {
-      delExample(row.id!)
+      delExample(row.id)
         .then(res => {
           ElMessage.success(res.msg)
           getExampleListHandle()
@@ -87,7 +85,7 @@ const delExampleHandle = (row: Example) => {
 }
 
 const dialogEditVisible = ref(false)
-const exampleFormRef = ref<FormInstance>()
+const exampleFormRef = ref()
 
 // 新增示例
 const addExampleHandle = async() => {
@@ -97,7 +95,7 @@ const addExampleHandle = async() => {
 }
 
 // 编辑示例
-const editExampleHandle = async(row: Example) => {
+const editExampleHandle = async(row) => {
   dialogEditVisible.value = true
   await nextTick()
   resetExampleForm()
@@ -110,13 +108,13 @@ const resetExampleForm = () => {
   delete exampleForm.id
 }
 
-const exampleForm = reactive<Example>({
+const exampleForm = reactive({
   userName: '',
   size: '',
   status: 1
 })
 
-const exampleRules = reactive<FormRules>({
+const exampleRules = reactive({
   userName: [{ required: true, message: '请输入', trigger: 'blur' }],
   size: [{ required: true, message: '请输入', trigger: 'blur' }],
   status: [{ required: true, message: '请输入', trigger: 'blur' }],

@@ -1,14 +1,12 @@
-<script setup lang="ts">
+<script setup>
 import { useUserStore } from '@/stores/user'
-import type {UserInfo} from "@/api/user/type";
 
 const userStore = useUserStore()
 
-let localUserInfo: string | null = null
-localUserInfo = localStorage.getItem('userInfo')
+let localUserInfo = localStorage.getItem('userInfo')
 
 if (localUserInfo){
-  const userInfo: UserInfo = JSON.parse(localUserInfo)
+  const userInfo = JSON.parse(localUserInfo)
   userStore.updateUserInfo(userInfo)
   // 加载缓存数据
   // getDictAreaList()

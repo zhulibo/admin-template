@@ -1,21 +1,28 @@
-<script setup lang="ts">
-import type { Component } from 'vue'
+<script setup>
 import { computed } from 'vue'
 
 const modules = import.meta.glob('@/assets/svg/*.svg', {
-  as: 'component',
+  query: '?component',
   eager: true,
 })
-const props = withDefaults(defineProps<{ name: string, size?: string }>(), {
-  size: '1em'
+
+const props = defineProps({
+  name: {
+    type: String,
+    required: true
+  },
+  size: {
+    type: String,
+    default: '1em'
+  }
 })
 
-const currentComponent = computed<Component>(() => {
+const currentComponent = computed(() => {
   const fileName = '/' + props.name + '.svg'
   for (const path in modules) {
     const mod = modules[path]
     if (path.endsWith(fileName)) {
-      return mod as Component
+      return mod
     }
   }
   throw new Error('not found svg file:' + fileName)
@@ -23,7 +30,7 @@ const currentComponent = computed<Component>(() => {
 </script>
 
 <template>
-  <component :is="currentComponent" :width="size" :height="size" />
+  <component :is="currentComponent" :width="props.size" :height="props.size" />
 </template>
 
 <style lang="pcss" scoped>

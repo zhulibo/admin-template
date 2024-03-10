@@ -1,8 +1,7 @@
-<script setup lang="ts">
+<script setup>
 import {computed, watch} from "vue";
 import { useVisitedPagesStore } from '@/stores/visitedPage'
 import {useRoute} from "vue-router";
-import type {RouteLocationNormalized} from "vue-router";
 
 const visitedPagesStore = useVisitedPagesStore()
 const route = useRoute()
@@ -16,7 +15,7 @@ watch(() => route.path, () => {
     name: route.name,
     path: route.path,
     meta: route.meta
-  } as unknown as RouteLocationNormalized)
+  })
 }, {immediate: true})
 </script>
 

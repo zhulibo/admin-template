@@ -1,12 +1,10 @@
-<script setup lang="ts">
+<script setup>
 import {nextTick, reactive, ref, watch} from "vue"
 import { getNewsCateList, addNewsCate, editNewsCate, delNewsCate } from '@/api/news/news'
 import {ElMessage, ElMessageBox, ElTable} from 'element-plus'
-import type {FormInstance, FormRules} from "element-plus";
-import type {NewsCate} from "@/api/news/type";
 
 const loading = ref(true)
-const newsCateList = ref<NewsCate[]>([])
+const newsCateList = ref([])
 
 // 获取新闻分类列表
 const getNewsCateListHandle = () => {
@@ -23,7 +21,7 @@ const getNewsCateListHandle = () => {
 
 getNewsCateListHandle()
 
-const tableRef = ref<InstanceType<typeof ElTable>>()
+const tableRef = ref()
 
 // 刷新
 const getListHandle = () => {
@@ -31,7 +29,7 @@ const getListHandle = () => {
 }
 
 // 切换状态
-const switchStatus = (row: NewsCate) => {
+const switchStatus = (row) => {
   loading.value = true
   const data = {
     id: row.id,
@@ -46,14 +44,14 @@ const switchStatus = (row: NewsCate) => {
 }
 
 // 删除新闻分类
-const delNewsCateHandle = (row: NewsCate) => {
+const delNewsCateHandle = (row) => {
   ElMessageBox.confirm('确定删除 ' + row.name, '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning'
   })
     .then(() => {
-      delNewsCate(row.id!)
+      delNewsCate(row.id)
         .then(res => {
           ElMessage.success(res.msg)
           getNewsCateListHandle()
@@ -65,7 +63,7 @@ const delNewsCateHandle = (row: NewsCate) => {
 }
 
 const dialogEditVisible = ref(false)
-const newsCateFormRef = ref<FormInstance>()
+const newsCateFormRef = ref()
 
 // 新增新闻分类
 const addNewsCateHandle = async() => {
@@ -75,24 +73,24 @@ const addNewsCateHandle = async() => {
 }
 
 // 编辑新闻分类
-const editNewsCateHandle = async(row: NewsCate) => {
+const editNewsCateHandle = async(row) => {
   dialogEditVisible.value = true
   await nextTick()
   resetNewsCateForm()
   Object.assign(newsCateForm, row)
 
   // 合成el-cascader所绑定的id数组
-  let temArr: number[] = []
+  let temArr = []
   const parentId = Number(row.parentId)
-  function schIds(list: NewsCate[]) {
+  function schIds(list) {
     for (let i = 0; i < list.length; i++) {
       if(list[i].id === parentId){
         temArr = [parentId]
         return
       }else{
-        temArr.push(list[i].id!)
-        if (list[i].children && list[i].children!.length > 0) {
-          schIds(list[i].children!)
+        temArr.push(list[i].id)
+        if (list[i].children && list[i].children.length > 0) {
+          schIds(list[i].children)
         }else{
           temArr = []
         }
@@ -110,15 +108,15 @@ const resetNewsCateForm = () => {
   delete newsCateForm.id
 }
 
-const parent = ref<number[] | null>([])
-const newsCateForm = reactive<NewsCate>({
+const parent = ref([])
+const newsCateForm = reactive({
   parentId: '',
   name: '',
   orderNum: 0,
   status: 1,
 })
 
-const newsCateRules = reactive<FormRules>({
+const newsCateRules = reactive({
   title: [{ required: true, message: '请输入', trigger: 'blur' }],
   name: [{ required: true, message: '请输入', trigger: 'blur' }],
 })

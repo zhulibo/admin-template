@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import {ref, reactive, watch} from "vue"
 import { useRouter, useRoute } from "vue-router";
 import ImgUpload from '@/components/fileUpload/ImgUpload.vue'
@@ -6,15 +6,13 @@ import RichText from '@/components/richText/RichText.vue'
 import { goBack } from "@/hooks";
 import {getNewsDetail, editNews, addNews, getNewsCateList} from "@/api/news/news";
 import {ElMessage} from 'element-plus'
-import type {FormInstance, FormRules} from 'element-plus'
-import type {News, NewsCate} from "@/api/news/type";
 
 const router = useRouter()
 const route = useRoute()
 
-const id = route.query.id as unknown as number
+const id = route.query.id
 
-const cateList = ref<NewsCate[]>([])
+const cateList = ref([])
 
 // 获取新闻分类列表
 const getNewsCateListHandle = () => {
@@ -28,7 +26,7 @@ const getNewsCateListHandle = () => {
 }
 getNewsCateListHandle()
 
-const cateArr = ref<number[] | null>([])
+const cateArr = ref([])
 
 // 获取新闻详情
 const getNewsDetailHandle = () => {
@@ -37,26 +35,26 @@ const getNewsDetailHandle = () => {
       // 返显（除cateId）
       for (const key in newsForm) {
         if(key !== 'cateId') {
-          (newsForm as any)[key] = (res.data as any)[key]
+          newsForm[key] = res.data[key]
         }
       }
       // 合成el-cascader所绑定的id数组
       const cateId = res.data.cateId
-      const temArr: number[] = []
+      const temArr = []
       let hasFind = false
-      function findItem(list: NewsCate[]) {
+      function findItem(list) {
         for (let i = 0; i < list.length; i++) {
           if(hasFind) {
             break
           }
           if(list[i].id === cateId){
-            temArr.push(list[i].id!)
+            temArr.push(list[i].id)
             hasFind = true
           }else{
-            if (list[i].children && list[i].children!.length > 0) {
+            if (list[i].children && list[i].children.length > 0) {
               // 添加list[i].id，开始查找children项
-              temArr.push(list[i].id!)
-              findItem(list[i].children!)
+              temArr.push(list[i].id)
+              findItem(list[i].children)
             }else{
               // children里不存在要找的目标，删除list[i].id
               if(i === list.length - 1){
@@ -72,7 +70,7 @@ const getNewsDetailHandle = () => {
     })
 }
 
-const newsForm = reactive<News>({
+const newsForm = reactive({
   title: '',
   imgUrl: '',
   cateId: undefined,
@@ -80,14 +78,14 @@ const newsForm = reactive<News>({
   type: 0,
   status: 0,
 })
-const newsRules = reactive<FormRules>({
+const newsRules = reactive({
   title: [{ required: true, message: '请输入', trigger: 'blur' }],
   imgUrl: [{ required: true, message: '请输入', trigger: 'blur' }],
   cateId: [{ required: true, message: '请选择', trigger: 'blur' }],
   content: [{ required: true, message: '请输入', trigger: 'blur' }],
 })
 
-const newsFormRef = ref<FormInstance>()
+const newsFormRef = ref()
 
 // 新闻分类变更
 const cascaderChange = () => {

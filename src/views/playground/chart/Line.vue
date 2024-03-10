@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import {onMounted} from "vue";
 import {useEcharts} from "@/hooks/useEcharts";
-import type {EChartsOption} from "echarts";
 
 const {initChart, setOption} = useEcharts()
 
-const chartLineOption: EChartsOption = {
+const chartLineOption = {
   title: {
     text: '折线图',
     left: 'center'
@@ -42,8 +41,8 @@ const chartLineOption: EChartsOption = {
 }
 onMounted(() => {
   setTimeout(() => {
-    (chartLineOption as any).xAxis.data = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    (chartLineOption as any).series[0].data = [120, 200, 150, 80, 70, 110, 130]
+    chartLineOption.xAxis.data = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    chartLineOption.series[0].data = [120, 200, 150, 80, 70, 110, 130]
     initChart('chart-line')
     setOption(chartLineOption)
   }, 200)

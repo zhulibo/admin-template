@@ -1,12 +1,10 @@
-<script setup lang="ts">
+<script setup>
 import path from 'path-browserify'
 import { ref } from "vue";
-import type {PropType} from "vue";
-import type {RouterList} from "@/stores/type";
 
 const props = defineProps({
   item: {
-    type: Object as PropType<RouterList>,
+    type: Object,
     required: true
   },
   basePath: {
@@ -21,7 +19,7 @@ const submenuList = (props.item.children ?? []).filter((item) => { // 子菜单�
 
 const hasSubmenu = ref(submenuList.length > 0) // 有下一级菜单
 
-const resolvePath = (routePath: string) => {
+const resolvePath = (routePath) => {
   return path.resolve(props.basePath, routePath)
 }
 </script>

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import NavItem from './NavItem.vue'
 import { reactive } from 'vue'
 import { usePermissionStore } from '@/stores/permission'

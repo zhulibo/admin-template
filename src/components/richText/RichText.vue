@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script setup>
 import { ref, watch } from "vue";
-import { useSettingStore } from '@/stores/setting'
+import { useSettingStore } from '@/stores/setting.js'
 import Editor from '@tinymce/tinymce-vue'
 import { fileUpload } from '@/api/common/common'
 
@@ -23,7 +23,7 @@ watch(() => content, content => {
 },{immediate: true})
 
 // 上传图片
-const handleImgUpload = (blobInfo: any, success: any, failure: any) => {
+const handleImgUpload = (blobInfo, success, failure) => {
   const data = new FormData()
   data.set('file', blobInfo.blob())
   fileUpload(data)
@@ -31,7 +31,7 @@ const handleImgUpload = (blobInfo: any, success: any, failure: any) => {
       success(settingStore.getFileHost + res.data)
     })
     .catch(e => {
-      failure('error')
+      failure('error', e)
     })
 }
 </script>
@@ -44,7 +44,7 @@ const handleImgUpload = (blobInfo: any, success: any, failure: any) => {
     menubar: false,
     plugins: 'lists link image help wordcount',
     toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | help image',
-    images_upload_handler: (blobInfo: any, success: any, failure: any) => {
+    images_upload_handler: (blobInfo, success, failure) => {
       handleImgUpload(blobInfo, success, failure)
     }
   }"

@@ -1,9 +1,8 @@
-<script setup lang="ts">
+<script setup>
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { login } from '@/api/user/user'
-import type {FormInstance, FormRules} from "element-plus";
 import {encrypt} from "@/utils/aes";
 
 const router = useRouter()
@@ -13,11 +12,11 @@ const loginForm = reactive({
   account: 'zhulibo',
   password: 'zhu022044',
 })
-const loginRule = reactive<FormRules>({
+const loginRule = reactive({
   account: [{ required: true, message: '请输入', trigger: 'blur' }],
   password: [{ required: true, message: '请输入', trigger: 'blur' }],
 })
-const loginFormRef = ref<FormInstance>()
+const loginFormRef = ref()
 
 // 登录
 const submitLoginForm = () => {

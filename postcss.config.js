@@ -1,8 +1,8 @@
-const postcssImport = require('postcss-import')
-const postcssPresetEnv = require('postcss-preset-env')
-const postcssMixins = require('postcss-mixins')
+import postcssImport from 'postcss-import';
+import postcssPresetEnv from 'postcss-preset-env';
+import postcssMixins from 'postcss-mixins';
 
-module.exports = {
+export default {
   plugins: [
     postcssImport({
       addModulesDirectories: ['node_modules']
@@ -17,4 +17,4 @@ module.exports = {
       mixinsFiles: './src/assets/css/mixins.pcss',
     })
   ],
-}
+};

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import {computed} from "vue";
 import {useVisitedPagesStore} from "@/stores/visitedPage";
 import HeadBar from './components/HeadBar.vue'
@@ -7,12 +7,12 @@ import SideNav from './components/SideNav.vue'
 
 const visitedPagesStore = useVisitedPagesStore()
 
-const cachePages = computed((): string[] =>{
+const cachePages = computed(() =>{
   const visitedPages = visitedPagesStore.getVisitedPages
   const res = []
   for (let i = 0; i < visitedPages.length; i++) {
     if(visitedPages[i].meta.cache) {
-      res.push(visitedPages[i].name as string)
+      res.push(visitedPages[i].name)
     }
   }
   return res

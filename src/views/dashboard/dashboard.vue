@@ -1,8 +1,8 @@
-<script setup lang="ts">
+<script setup>
 import dayjs from "dayjs";
 import {ref} from "vue";
 
-const dateStr = ref<string>()
+const dateStr = ref()
 dateStr.value = dayjs().format('YYYY-MM-DD HH:mm:ss')
 </script>
 

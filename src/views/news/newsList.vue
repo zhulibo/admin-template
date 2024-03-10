@@ -3,13 +3,12 @@ import {reactive, ref, watch} from "vue"
 import { useRouter } from 'vue-router'
 import {getNewsList, editNews, delNews, getNewsCateList} from '@/api/news/news'
 import {ElMessage, ElMessageBox, ElTable} from 'element-plus'
-import {useSettingStore} from "@/stores/setting";
-import type {News, NewsListParams, NewsCate} from "@/api/news/type";
+import {useSettingStore} from "@/stores/setting.js";
 
 const settingStore = useSettingStore()
 const router = useRouter()
 
-const cateList = ref<NewsCate[]>([])
+const cateList = ref([])
 
 // 获取新闻分类列表
 const getNewsCateListHandle = () => {
@@ -20,7 +19,7 @@ const getNewsCateListHandle = () => {
 }
 getNewsCateListHandle()
 
-const schForm = reactive<NewsListParams>({
+const schForm = reactive({
   cateId: undefined,
   title: '',
   startTime: '',
@@ -31,7 +30,7 @@ const schForm = reactive<NewsListParams>({
 })
 
 // 新闻分类变更
-const cascaderChange = (cateArr: number[] | null) => {
+const cascaderChange = (cateArr) => {
   // 选择时是数组
   if(Array.isArray(cateArr)) {
     if (cateArr.length > 0) {
@@ -48,9 +47,9 @@ const cascaderChange = (cateArr: number[] | null) => {
 }
 
 const loading = ref(true)
-const newsList = ref<News[]>([])
+const newsList = ref([])
 const total = ref(0)
-const tableRef = ref<InstanceType<typeof ElTable>>()
+const tableRef = ref()
 
 // 获取新闻列表
 const getNewsListHandle = () => {
@@ -68,10 +67,10 @@ const getNewsListHandle = () => {
 getNewsListHandle()
 
 // 返显新闻分类
-const unEscapeCate = (cateId: number) => {
+const unEscapeCate = (cateId) => {
   const temArr: string[] = []
   let hasFind = false
-  function findItem(list: NewsCate[]) {
+  function findItem(list) {
     for (let i = 0; i < list.length; i++) {
       if(hasFind) {
         break
@@ -118,12 +117,12 @@ const addNewsHandle = () => {
 }
 
 // 编辑新闻
-const editNewsHandle = (row: News) => {
+const editNewsHandle = (row) => {
   router.push({path: 'newsEdit', query: {id: row.id}})
 }
 
 // 切换状态
-const switchStatus = (row: News) => {
+const switchStatus = (row) => {
   loading.value = true
   const data = {
     id: row.id,
@@ -138,7 +137,7 @@ const switchStatus = (row: News) => {
 }
 
 // 删除新闻
-const delNewsHandle = (row: News) => {
+const delNewsHandle = (row) => {
   ElMessageBox.confirm('确定删除 ' + row.title, '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
