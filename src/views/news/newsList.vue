@@ -242,5 +242,5 @@ const delNewsHandle = (row) => {
   </div>
 </template>
 
-<style lang="pcss" scoped>
+<style scoped lang="pcss">
 </style>

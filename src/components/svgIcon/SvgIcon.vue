@@ -30,10 +30,10 @@ const currentComponent = computed(() => {
 </script>
 
 <template>
-  <component :is="currentComponent" :width="props.size" :height="props.size" />
+  <component :is="currentComponent" :width="size" :height="size" />
 </template>
 
-<style lang="pcss" scoped>
+<style scoped lang="pcss">
 svg{
   fill: currentColor;
 }

@@ -89,7 +89,7 @@
   </div>
 </template>
 
-<style lang="pcss" scoped>
+<style scoped lang="pcss">
 .ct{
   min-height: 100vh;
   background-color: #eee;

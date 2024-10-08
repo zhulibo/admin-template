@@ -54,7 +54,7 @@ onMounted(() => {
   <div id="chart-line"></div>
 </template>
 
-<style lang="pcss" scoped>
+<style scoped lang="pcss">
 #chart-line{
   width: 100%;
   height: 400px;

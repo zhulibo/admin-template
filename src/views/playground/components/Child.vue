@@ -17,7 +17,7 @@ defineExpose({
   </div>
 </template>
 
-<style lang="pcss" scoped>
+<style scoped lang="pcss">
 .a{
   width: 100px;
   height: 20px;

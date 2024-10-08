@@ -32,7 +32,7 @@ watch(() => route.path, () => {
   </div>
 </template>
 
-<style lang="pcss" scoped>
+<style scoped lang="pcss">
 .head-tab{
   position: absolute;
   z-index: 100;

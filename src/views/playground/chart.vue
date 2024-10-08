@@ -20,7 +20,7 @@ import Pie from './chart/Pie.vue'
   </div>
 </template>
 
-<style lang="pcss" scoped>
+<style scoped lang="pcss">
 .ct{
   display: flex;
   flex-wrap: wrap;
@@ -28,13 +28,13 @@ import Pie from './chart/Pie.vue'
     box-sizing: border-box;
     padding: 10px;
   }
-  & .l{
+  .l{
     width: 50%;
   }
-  & .m{
+  .m{
     width: 50%;
   }
-  & .r{
+  .r{
     width: 50%;
   }
 }

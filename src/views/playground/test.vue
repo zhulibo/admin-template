@@ -42,7 +42,7 @@ const doFetch = () => {
   </div>
 </template>
 
-<style lang="pcss" scoped>
+<style scoped lang="pcss">
 hr{
   margin: 10px 0;
 }

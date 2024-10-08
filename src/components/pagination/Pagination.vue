@@ -36,7 +36,7 @@ const page = computed({
   />
 </template>
 
-<style lang="pcss" scoped>
+<style scoped lang="pcss">
 .el-pagination{
   margin-top: 10px;
   justify-content: center;

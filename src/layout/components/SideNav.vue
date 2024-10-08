@@ -26,7 +26,7 @@ const routers = reactive(permissionStore.getRouters)
   </div>
 </template>
 
-<style lang="pcss" scoped>
+<style scoped lang="pcss">
 .side-nav{
   overflow-x: hidden;
   overflow-y: auto;
@@ -38,6 +38,7 @@ const routers = reactive(permissionStore.getRouters)
   box-sizing: border-box;
   width: 200px;
   background-color: #545c64;
-  @mixin scrollBar;
+  scrollbar-color: rgba(0,0,0,.15) transparent;
+  scrollbar-width: thin;
 }
 </style>

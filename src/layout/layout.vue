@@ -32,7 +32,7 @@ const cachePages = computed(() =>{
   </div>
 </template>
 
-<style lang="pcss" scoped>
+<style scoped lang="pcss">
 .main-ct{
   position: absolute;
   top: 81px;

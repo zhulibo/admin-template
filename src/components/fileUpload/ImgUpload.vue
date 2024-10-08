@@ -127,15 +127,15 @@ const handleImgPreview = (file) => {
   </div>
 </template>
 
-<style lang="pcss" scoped>
+<style scoped lang="pcss">
 .file-upload{
-  & :deep(.hide .el-upload--picture-card) {
+  :deep(.hide .el-upload--picture-card) {
     display: none;
   }
-  & :deep(.el-upload-list__item){
+  :deep(.el-upload-list__item){
     transition: none;
   }
-  & :deep(.el-upload-list--picture-card .el-upload-list__item){
+  :deep(.el-upload-list--picture-card .el-upload-list__item){
     vertical-align: bottom;
   }
 }

@@ -235,5 +235,5 @@ watch(() => parent, parent => {
   </div>
 </template>
 
-<style lang="pcss" scoped>
+<style scoped lang="pcss">
 </style>

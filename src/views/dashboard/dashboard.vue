@@ -11,5 +11,5 @@ dateStr.value = dayjs().format('YYYY-MM-DD HH:mm:ss')
   <p>{{dateStr}}</p>
 </template>
 
-<style lang="pcss" scoped>
+<style scoped lang="pcss">
 </style>

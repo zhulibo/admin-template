@@ -38,7 +38,7 @@ const resolvePath = (routePath) => {
 </template>
 
 
-<style lang="pcss" scoped>
+<style scoped lang="pcss">
 .icon-nav{
   margin-right: 2px;
 }

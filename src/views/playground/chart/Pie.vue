@@ -64,7 +64,7 @@ onMounted(() => {
   <div id="chart-pie"></div>
 </template>
 
-<style lang="pcss" scoped>
+<style scoped lang="pcss">
 #chart-pie{
   width: 100%;
   height: 400px;

@@ -20,7 +20,7 @@ const logout = () => {
   </div>
 </template>
 
-<style lang="pcss" scoped>
+<style scoped lang="pcss">
 .head-bar{
   position: absolute;
   z-index: 200;
