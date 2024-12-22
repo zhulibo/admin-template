@@ -2,6 +2,7 @@ import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import vueDevTools from 'vite-plugin-vue-devtools'
 
 import svgLoader from 'vite-svg-loader'
 import viteCompression from 'vite-plugin-compression';
@@ -11,26 +12,21 @@ const __APP_INFO__ = {
   lastBuildTime: new Date().getTime()
 }
 
-// https://vitejs.dev/config/
 export default defineConfig({
   // base: './',
   server: {
     host: '0.0.0.0',
     port: 2001,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3001',
-        rewrite: (path) => path.replace(/^\/api/, '')
-      },
-    }
-  },
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://localhost:3001',
+    //     rewrite: (path) => path.replace(/^\/api/, '')
+    //   },
+    // }
   },
   plugins: [
     vue(),
+    vueDevTools(),
     svgLoader(),
     viteCompression({
       threshold: 10240, // 大于10k才压缩
@@ -39,6 +35,11 @@ export default defineConfig({
     //   filename: 'dist/stats.html'
     // })
   ],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
+  },
   build: {
     chunkSizeWarningLimit: 1000,
     rollupOptions: {

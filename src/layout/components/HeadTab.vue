@@ -46,7 +46,7 @@ watch(() => route.path, () => {
 }
 .tab-item{
   display: inline-block;
-  & span{
+  span{
     box-sizing: border-box;
     display: inline-block;
     margin-left: 10px;

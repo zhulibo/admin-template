@@ -21,6 +21,9 @@ import Pie from './chart/Pie.vue'
 </template>
 
 <style scoped lang="pcss">
+.wrapper {
+  padding: 10px;
+}
 .ct{
   display: flex;
   flex-wrap: wrap;

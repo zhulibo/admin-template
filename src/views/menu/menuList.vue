@@ -304,4 +304,7 @@ watch(() => parent, parent => {
 </template>
 
 <style scoped lang="pcss">
+.wrapper {
+  padding: 10px;
+}
 </style>

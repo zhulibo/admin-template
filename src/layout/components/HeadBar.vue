@@ -32,12 +32,12 @@ const logout = () => {
 }
 .user-info{
   float: right;
-  & .user-name{
+  .user-name{
     padding: 0 20px;
     line-height: 50px;
     cursor: pointer;
   }
-  & .user-logout{
+  .user-logout{
     display: none;
     padding: 10px 20px;
     background-color: #fff;
@@ -45,7 +45,7 @@ const logout = () => {
     box-shadow: 0 0 5px rgba(0, 0, 0, .2);
   }
   &:hover{
-    & .user-logout{
+    .user-logout{
       display: block;
     }
   }

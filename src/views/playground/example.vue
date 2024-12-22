@@ -234,4 +234,7 @@ const submitExampleForm = () => {
 </template>
 
 <style scoped lang="pcss">
+.wrapper {
+  padding: 10px;
+}
 </style>

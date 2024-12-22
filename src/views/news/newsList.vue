@@ -243,4 +243,7 @@ const delNewsHandle = (row) => {
 </template>
 
 <style scoped lang="pcss">
+.wrapper {
+  padding: 10px;
+}
 </style>

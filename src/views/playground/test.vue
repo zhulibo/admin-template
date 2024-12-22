@@ -43,6 +43,9 @@ const doFetch = () => {
 </template>
 
 <style scoped lang="pcss">
+.wrapper {
+  padding: 10px;
+}
 hr{
   margin: 10px 0;
 }

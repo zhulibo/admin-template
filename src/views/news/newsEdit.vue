@@ -180,6 +180,9 @@ const submitNewsForm = () => {
 </template>
 
 <style scoped lang="pcss">
+.wrapper {
+  padding: 10px;
+}
 .news-edit{
   padding: 20px;
   .el-form{
