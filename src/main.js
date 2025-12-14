@@ -14,13 +14,13 @@ import Pagination from '@/components/pagination/Pagination.vue' // 分页组件
 import Icon from '@/components/svgIcon/SvgIcon.vue'
 
 // 发布版本清除localStorage
-if (!import.meta.env.DEV) {
-  const localAppInfo = JSON.parse(localStorage.getItem('APP_INFO') || '{}')
-  if (localAppInfo.lastBuildTime !== __APP_INFO__.lastBuildTime) {
-    localStorage.clear()
-    localStorage.setItem('APP_INFO', JSON.stringify(__APP_INFO__))
-  }
-}
+// if (!import.meta.env.DEV) {
+//   const localAppInfo = JSON.parse(localStorage.getItem('APP_INFO') || '{}')
+//   if (localAppInfo.lastBuildTime !== __APP_INFO__.lastBuildTime) {
+//     localStorage.clear()
+//     localStorage.setItem('APP_INFO', JSON.stringify(__APP_INFO__))
+//   }
+// }
 
 const app = createApp(App)
 

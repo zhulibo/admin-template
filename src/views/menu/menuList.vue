@@ -21,7 +21,7 @@ const getMenuListHandle = () => {
 
 getMenuListHandle()
 
-const tableRef = ref<InstanceType<typeof ElTable>>()
+const tableRef = ref()
 
 // 刷新
 const getListHandle = () => {
@@ -116,7 +116,7 @@ const resetMenuForm = () => {
   delete menuForm.id
 }
 
-const parent = ref<number[] | null>([])
+const parent = ref([])
 const menuForm = reactive({
   parentId: '',
   title: '',

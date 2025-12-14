@@ -26,7 +26,7 @@ export default defineConfig({
   },
   plugins: [
     vue(),
-    vueDevTools(),
+    // vueDevTools(),
     svgLoader(),
     viteCompression({
       threshold: 10240, // 大于10k才压缩
